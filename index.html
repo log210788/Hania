@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Afternoon Tea Salon &bull; Hania's British Fluency</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    if (typeof tailwind === 'undefined') {
+      document.write('<script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Three.js for 3D Physics and Leaves -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Google Fonts: Luxury English Tea & Girly Calligraphy -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Custom Tea Salon Stylesheet -->
+  <link rel="stylesheet" href="assets/css/tea-salon.css">
+</head>
+<body class="min-h-screen text-slate-800 antialiased flex flex-col relative selection:bg-pink-200 selection:text-pink-900">
+
+  <!-- Fullscreen Ambient 3D Leaf Physics Background (Three.js) -->
+  <div id="leafCanvasContainer" title="3D Ambient Falling Leaves & Petals"></div>
+
+  <!-- Delicate Vintage Rose & Porcelain Top Banner -->
+  <header class="bg-gradient-to-r from-pink-50 via-rose-50 to-pink-100 border-b border-pink-200/80 sticky top-0 z-40 backdrop-blur-md shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      
+      <!-- Brand & Student Profile -->
+      <div class="flex items-center space-x-3.5">
+        <div class="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-pink-400 via-rose-400 to-amber-300 text-white flex items-center justify-center text-xl shadow-md border-2 border-white">
+          <span>🫖</span>
+          <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-pink-500"></span>
+          </span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold text-pink-950 font-serif-luxury tracking-wide">English Afternoon Tea Salon</h1>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-pink-200 text-pink-800 border border-pink-300/80 shadow-xs">
+              Week 1 Masterclass
+            </span>
+          </div>
+          <p class="text-xs text-pink-800/80 font-medium">
+            Student: <span class="text-pink-950 font-bold">Hania ✨</span> &bull; Tutor: <span class="text-pink-950 font-semibold">Lewis O. 🇬🇧</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2 text-xs">
+        <button onclick="window.TeaPhysics.toggleAmbient()" class="px-3 py-1.5 rounded-xl bg-white/90 hover:bg-white text-pink-700 border border-pink-300 font-semibold transition flex items-center gap-1.5 shadow-sm hover:shadow">
+          <span>🍃</span> Toggle 3D Leaves
+        </button>
+        <a href="#labSection" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold transition flex items-center gap-1.5 shadow-sm hover:shadow-md">
+          <span>✨</span> 3D Physics Lab
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation Ribbon -->
+    <div class="border-t border-pink-200/50 bg-white/70">
+      <div class="max-w-5xl mx-auto px-4 overflow-x-auto no-scrollbar">
+        <nav class="flex space-x-2 py-2 text-xs font-semibold text-pink-900/80">
+          <a href="#overviewSection" class="px-3 py-1 rounded-lg hover:bg-pink-100 hover:text-pink-950 transition flex items-center gap-1">🌸 Overview</a>
+          <a href="#labSection" class="px-3 py-1 rounded-lg hover:bg-pink-100 hover:text-pink-950 transition flex items-center gap-1">🍃 3D Leaf Physics Lab</a>
+          <a href="#sprintSection" class="px-3 py-1 rounded-lg hover:bg-pink-100 hover:text-pink-950 transition flex items-center gap-1">⏱️ Anti-Translation Sprint</a>
+          <a href="#preferenceSection" class="px-3 py-1 rounded-lg hover:bg-pink-100 hover:text-pink-950 transition flex items-center gap-1">☕ Nuanced Preferences</a>
+          <a href="#pronunciationSection" class="px-3 py-1 rounded-lg hover:bg-pink-100 hover:text-pink-950 transition flex items-center gap-1">🎶 Schwa & Catenation</a>
+          <a href="#memorySection" class="px-3 py-1 rounded-lg hover:bg-pink-100 hover:text-pink-950 transition flex items-center gap-1">🎴 Memory Match Game</a>
+          <a href="#boothSection" class="px-3 py-1 rounded-lg hover:bg-pink-100 hover:text-pink-950 transition flex items-center gap-1">🎙️ Voice Recording Booth</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Body -->
+  <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full space-y-10 z-20">
+
+    <!-- Hero / Welcome Greeting -->
+    <section id="overviewSection" class="porcelain-card p-6 md:p-8 relative overflow-hidden">
+      <!-- Decorative floral background watermarks -->
+      <div class="absolute -right-8 -bottom-10 opacity-15 text-9xl pointer-events-none select-none">
+        🌸
+      </div>
+      <div class="relative z-10 max-w-2xl">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-pink-100 text-pink-700 border border-pink-200 mb-3 font-serif-luxury tracking-wide">
+          ✨ Welcome to Your British English Salon, Hania
+        </span>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-pink-950 font-serif-luxury tracking-tight leading-snug">
+          British English Rhythm, Connected Speech & Conversational Agility
+        </h2>
+        <p class="text-sm md:text-base text-pink-900/80 mt-2.5 leading-relaxed font-garamond text-lg">
+          Pour yourself a fresh cup of tea, relax, and let go of mental translation! In this masterclass, we train your instantaneous conversational reflexes using the 3-second speed matrix, authentic British understated nuance, musical stress-timing, and consonant-to-vowel catenation.
+        </p>
+
+        <!-- Quick lesson statistics badge bar -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-pink-200/70">
+          <div class="p-2.5 rounded-xl bg-pink-50/80 border border-pink-200/60 text-center">
+            <span class="block text-xl font-bold text-pink-600 font-serif-luxury">10</span>
+            <span class="text-[11px] font-medium text-pink-800">Concept Triggers</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-pink-50/80 border border-pink-200/60 text-center">
+            <span class="block text-xl font-bold text-rose-600 font-serif-luxury">3s</span>
+            <span class="text-[11px] font-medium text-rose-800">Sprint Reflex</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-pink-50/80 border border-pink-200/60 text-center">
+            <span class="block text-xl font-bold text-amber-600 font-serif-luxury">3 Tiers</span>
+            <span class="text-[11px] font-medium text-amber-800">British Nuance</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-pink-50/80 border border-pink-200/60 text-center">
+            <span class="block text-xl font-bold text-emerald-600 font-serif-luxury">/ə/</span>
+            <span class="text-[11px] font-medium text-emerald-800">Schwa Flow</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: 3D Leaf Physics & English Tea Salon Laboratory -->
+    <section id="labSection" class="porcelain-card p-6 relative">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-pink-600 font-serif-luxury">3D WebGL & Physics Engine</span>
+          <h3 class="text-xl font-bold text-pink-950 font-serif-luxury flex items-center gap-2">
+            <span>🫖</span> The 3D English Tea & Falling Leaf Laboratory
+          </h3>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="window.TeaPhysics.scatterLab(); window.TeaAudio.playCupClink();" class="px-3 py-1.5 rounded-xl bg-pink-100 hover:bg-pink-200 text-pink-800 border border-pink-300 text-xs font-semibold transition flex items-center gap-1 shadow-xs">
+            <span>🍃</span> Scatter Leaves
+          </button>
+          <button onclick="const active = window.TeaPhysics.swirlLab(); this.classList.toggle('bg-rose-600', active); this.classList.toggle('text-white', active); window.TeaAudio.playTeaBell();" class="px-3 py-1.5 rounded-xl bg-pink-500 hover:bg-pink-600 text-white text-xs font-semibold transition flex items-center gap-1 shadow-sm">
+            <span>🌪️</span> Tea Whirlwind Vortex
+          </button>
+        </div>
+      </div>
+
+      <p class="text-xs text-pink-900/80 mb-3 font-garamond text-base">
+        Interact with true 3D tea leaves and rose petals! Drag with your mouse to rotate the tea porcelain saucer and cup, or click to unleash air bursts and watch aerodynamic fluttering in action.
+      </p>
+
+      <!-- 3D Canvas Viewport -->
+      <div class="relative w-full h-[420px] rounded-2xl overflow-hidden border-2 border-pink-200/90 shadow-inner bg-gradient-to-b from-pink-50/50 to-rose-100/50">
+        <canvas id="labCanvas" class="w-full h-full block"></canvas>
+        
+        <!-- Overlay Instructions -->
+        <div class="absolute bottom-3 left-3 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-pink-200 text-[11px] text-pink-900 pointer-events-none flex items-center gap-1.5 shadow-sm">
+          <span>👆</span> <em>Click & drag to orbit & fling leaves in 3D</em>
+        </div>
+
+        <!-- Interactive Physics Controls Toolbar -->
+        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-md p-2.5 rounded-2xl border border-pink-200 shadow-md text-xs space-y-2 max-w-[200px]">
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-pink-700">Botanical Variety:</label>
+            <select onchange="window.TeaPhysics.changeLabLeafType(this.value); window.TeaAudio.playCupClink();" class="mt-0.5 w-full text-xs rounded-lg border-pink-200 bg-pink-50/70 text-pink-950 p-1 font-medium">
+              <option value="all">🌸 All Botanicals (Mix)</option>
+              <option value="tea">🍃 Ceylon Green Tea</option>
+              <option value="rose">🌹 English Rose Petals</option>
+              <option value="jasmine">✨ Golden Jasmine</option>
+              <option value="earlgrey">🍂 Earl Grey Bergamot</option>
+            </select>
+          </div>
+          <div>
+            <div class="flex justify-between text-[10px] font-bold text-pink-700 uppercase">
+              <span>Gravity:</span>
+              <span id="gravityVal">Earth Tea</span>
+            </div>
+            <input type="range" min="0" max="0.25" step="0.01" value="0.08" oninput="window.TeaPhysics.setGravity(this.value); document.getElementById('gravityVal').textContent = this.value == 0 ? 'Zero-G' : (this.value > 0.15 ? 'Heavy' : 'Floaty');" class="w-full accent-pink-500 h-1.5 bg-pink-200 rounded-lg cursor-pointer">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Anti-Translation 3-Second Speed Matrix Sprint -->
+    <section id="sprintSection" class="porcelain-card p-6 md:p-8 relative">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-pink-600 font-serif-luxury">Conversational Reflex Module</span>
+          <h3 class="text-xl md:text-2xl font-bold text-pink-950 font-serif-luxury flex items-center gap-2">
+            <span>⏱️</span> Anti-Translation Speed Matrix Sprint
+          </h3>
+        </div>
+        <button id="sprintAudioBtn" class="px-3.5 py-1.5 rounded-xl bg-pink-100 hover:bg-pink-200 text-pink-800 border border-pink-300 text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
+          <span>🔊</span> Pronounce Word
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        <!-- Target Trigger Card -->
+        <div class="md:col-span-7 bg-white/80 rounded-2xl p-6 border border-pink-200/80 shadow-sm relative">
+          <div class="flex items-center justify-between border-b border-pink-100 pb-3 mb-4">
+            <span class="text-xs font-bold text-pink-600 uppercase tracking-wider font-serif-luxury">Active Challenge Word</span>
+            <span id="sprintTriggerIpa" class="text-xs font-mono text-pink-700 bg-pink-50 px-2 py-0.5 rounded-md border border-pink-200">/kəmˈpleɪsənsi/</span>
+          </div>
+
+          <h4 id="sprintTriggerWord" class="text-3xl font-extrabold text-pink-950 font-serif-luxury tracking-wide mb-2">
+            Complacency
+          </h4>
+          <p id="sprintTriggerMeaning" class="text-sm text-slate-700 font-garamond text-lg leading-snug">
+            Dangerous uncritical satisfaction when unaware of impending risks.
+          </p>
+
+          <!-- 3-Angle Formulas Accordion Preview -->
+          <div class="mt-5 space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-pink-50/70 border border-pink-200/80">
+              <span class="font-bold text-pink-900 uppercase text-[10px] tracking-wider">Formula 1 (Functional):</span>
+              <p id="formula1Text" class="text-slate-700 italic mt-0.5">It essentially refers to a state or situation where people become so comfortable that they ignore warning signs.</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-rose-50/70 border border-rose-200/80">
+              <span class="font-bold text-rose-900 uppercase text-[10px] tracking-wider">Formula 2 (Contrast):</span>
+              <p id="formula2Text" class="text-slate-700 italic mt-0.5">It's practically the polar opposite of vigilance—instead of staying proactive, people relax.</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/80">
+              <span class="font-bold text-amber-900 uppercase text-[10px] tracking-wider">Formula 3 (Real-World Vignette):</span>
+              <p id="formula3Text" class="text-slate-700 italic mt-0.5">Picture a market leader that stops innovating until a competitor suddenly overtakes them.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Countdown & Speaking Timer -->
+        <div class="md:col-span-5 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-pink-50 to-rose-100/70 rounded-2xl border-2 border-pink-200 text-center shadow-inner">
+          <span id="sprintTimerStatus" class="text-xs font-bold text-pink-900 mb-2">Ready for the 3-Second Challenge?</span>
+          
+          <div class="w-28 h-28 rounded-full bg-white border-4 border-pink-300 shadow-md flex items-center justify-center my-3 relative">
+            <span id="sprintTimerDisplay" class="text-3xl font-extrabold text-pink-700 font-serif-luxury">3s</span>
+          </div>
+
+          <p class="text-[11px] text-pink-800/80 max-w-xs mb-4">
+            Rule: Open your mouth within 3 seconds and speak in fluid English for 25 seconds. Do not look for foreign translations!
+          </p>
+
+          <div class="flex items-center gap-2 w-full">
+            <button id="sprintStartBtn" class="flex-1 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs transition shadow-md">
+              🌸 Begin 3-Second Sprint
+            </button>
+            <button id="sprintNextBtn" class="px-3 py-2.5 rounded-xl bg-white hover:bg-pink-50 text-pink-700 border border-pink-300 font-semibold text-xs transition shadow-sm">
+              🎲 Random
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 High-Frequency Concept Triggers Complete Grid -->
+      <div class="mt-8 pt-6 border-t border-pink-200">
+        <h4 class="text-sm font-bold uppercase tracking-wider text-pink-800 font-serif-luxury mb-4 flex items-center gap-2">
+          <span>📚</span> Complete Week 1 Concept Trigger Matrix (10 Words)
+        </h4>
+        <div id="conceptTriggersAccordion" class="space-y-3">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: The Afternoon Tea Nuanced Preference Matrix -->
+    <section id="preferenceSection" class="porcelain-card p-6 md:p-8">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-pink-600 font-serif-luxury">Authentic British Discourse</span>
+          <h3 class="text-xl md:text-2xl font-bold text-pink-950 font-serif-luxury flex items-center gap-2">
+            <span>☕</span> The "Afternoon Tea" Nuanced Preference Matrix
+          </h3>
+        </div>
+        <span class="text-xs text-pink-800 font-medium bg-pink-100 px-3 py-1 rounded-full border border-pink-200">
+          Beyond "I like it" & "I don't like it"
+        </span>
+      </div>
+
+      <!-- The 3 Tiers Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        
+        <!-- Tier 1: Enthusiastic Endorsement -->
+        <div class="p-5 rounded-2xl bg-gradient-to-b from-pink-50 to-pink-100/60 border-2 border-pink-300 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">👑</span>
+              <h4 class="font-bold text-pink-900 font-serif-luxury text-sm">Enthusiastic Endorsement</h4>
+            </div>
+            <p class="text-xs text-pink-800/80 mb-3">Unreserved, elevated British delight and aesthetic match:</p>
+            <ul class="text-xs space-y-2 text-slate-800">
+              <li class="p-2 rounded-lg bg-white/90 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-50" data-speak="It's right up my street">
+                <span>&bull; <strong>"It's right up my street!"</strong></span>
+                <span class="text-[10px] text-pink-600">🔊</span>
+              </li>
+              <li class="p-2 rounded-lg bg-white/90 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-50" data-speak="I'm thoroughly impressed by that">
+                <span>&bull; <strong>"Thoroughly impressed by that."</strong></span>
+                <span class="text-[10px] text-pink-600">🔊</span>
+              </li>
+              <li class="p-2 rounded-lg bg-white/90 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-50" data-speak="I'm a massive fan of it, quite frankly">
+                <span>&bull; <strong>"A massive fan of it, quite frankly."</strong></span>
+                <span class="text-[10px] text-pink-600">🔊</span>
+              </li>
+            </ul>
+          </div>
+          <span class="text-[10px] font-bold text-pink-600 mt-3 block text-right font-serif-luxury">High Praise ✨</span>
+        </div>
+
+        <!-- Tier 2: Understated British Approval -->
+        <div class="p-5 rounded-2xl bg-gradient-to-b from-rose-50 to-rose-100/60 border-2 border-rose-300 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">☕</span>
+              <h4 class="font-bold text-rose-900 font-serif-luxury text-sm">Understated Warmth</h4>
+            </div>
+            <p class="text-xs text-rose-800/80 mb-3">Quintessential British modesty and gentle affection:</p>
+            <ul class="text-xs space-y-2 text-slate-800">
+              <li class="p-2 rounded-lg bg-white/90 border border-rose-200 flex items-center justify-between cursor-pointer hover:bg-rose-50" data-speak="It's not half bad, actually">
+                <span>&bull; <strong>"It's not half bad, actually."</strong></span>
+                <span class="text-[10px] text-rose-600">🔊</span>
+              </li>
+              <li class="p-2 rounded-lg bg-white/90 border border-rose-200 flex items-center justify-between cursor-pointer hover:bg-rose-50" data-speak="It certainly ticks all the right boxes">
+                <span>&bull; <strong>"Ticks all the right boxes."</strong></span>
+                <span class="text-[10px] text-rose-600">🔊</span>
+              </li>
+              <li class="p-2 rounded-lg bg-white/90 border border-rose-200 flex items-center justify-between cursor-pointer hover:bg-rose-50" data-speak="I wouldn't say no to that!">
+                <span>&bull; <strong>"I wouldn't say no to that!"</strong></span>
+                <span class="text-[10px] text-rose-600">🔊</span>
+              </li>
+              <li class="p-2 rounded-lg bg-white/90 border border-rose-200 flex items-center justify-between cursor-pointer hover:bg-rose-50" data-speak="I'm quite partial to it, to be fair">
+                <span>&bull; <strong>"Quite partial to it, to be fair."</strong></span>
+                <span class="text-[10px] text-rose-600">🔊</span>
+              </li>
+            </ul>
+          </div>
+          <span class="text-[10px] font-bold text-rose-600 mt-3 block text-right font-serif-luxury">Affectionate Moderation 🍰</span>
+        </div>
+
+        <!-- Tier 3: Diplomatic Distance & Reservations -->
+        <div class="p-5 rounded-2xl bg-gradient-to-b from-amber-50 to-pink-50 border-2 border-pink-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">🌸</span>
+              <h4 class="font-bold text-pink-950 font-serif-luxury text-sm">Diplomatic Distance</h4>
+            </div>
+            <p class="text-xs text-pink-900/80 mb-3">Polite social distance without causing offense:</p>
+            <ul class="text-xs space-y-2 text-slate-800">
+              <li class="p-2 rounded-lg bg-white/90 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-50" data-speak="It's not quite my cup of tea">
+                <span>&bull; <strong>"Not quite my cup of tea."</strong></span>
+                <span class="text-[10px] text-pink-600">🔊</span>
+              </li>
+              <li class="p-2 rounded-lg bg-white/90 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-50" data-speak="I can take it or leave it, to be fair">
+                <span>&bull; <strong>"Can take it or leave it."</strong></span>
+                <span class="text-[10px] text-pink-600">🔊</span>
+              </li>
+              <li class="p-2 rounded-lg bg-white/90 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-50" data-speak="It leaves a little to be desired">
+                <span>&bull; <strong>"Leaves a little to be desired."</strong></span>
+                <span class="text-[10px] text-pink-600">🔊</span>
+              </li>
+              <li class="p-2 rounded-lg bg-white/90 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-50" data-speak="It's a bit much for my liking">
+                <span>&bull; <strong>"A bit much for my liking."</strong></span>
+                <span class="text-[10px] text-pink-600">🔊</span>
+              </li>
+            </ul>
+          </div>
+          <span class="text-[10px] font-bold text-amber-700 mt-3 block text-right font-serif-luxury">Polite Refusal 🫖</span>
+        </div>
+      </div>
+
+      <!-- Interactive Mini Tea-Tasting Quiz -->
+      <div class="bg-gradient-to-r from-pink-50 via-white to-pink-50 rounded-2xl p-5 border border-pink-200/90 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-pink-700 uppercase tracking-wider font-serif-luxury">
+            Interactive Quiz: Which Nuance Tier Does This Belong To?
+          </span>
+          <span class="text-xs font-bold text-pink-900 bg-pink-100 px-2 py-0.5 rounded-md">Score: <span id="quizScore">0</span></span>
+        </div>
+
+        <p id="quizPhraseText" class="text-lg md:text-xl font-bold text-slate-800 text-center my-3 font-serif-luxury">
+          "It's not half bad, to be fair."
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-2 mt-4">
+          <button class="quiz-tier-btn px-3 py-2 rounded-xl bg-pink-100 hover:bg-pink-200 text-pink-900 border border-pink-300 text-xs font-semibold transition" data-tier="enthusiastic">
+            👑 Enthusiastic Endorsement
+          </button>
+          <button class="quiz-tier-btn px-3 py-2 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-900 border border-rose-300 text-xs font-semibold transition" data-tier="warm">
+            ☕ Understated Approval
+          </button>
+          <button class="quiz-tier-btn px-3 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-xs font-semibold transition" data-tier="diplomatic">
+            🌸 Diplomatic Distance
+          </button>
+        </div>
+
+        <div id="quizFeedback" class="hidden"></div>
+        <div class="text-center mt-3">
+          <button id="quizNextBtn" class="hidden px-4 py-1.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold transition shadow-sm">
+            Next Phrase &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Stress-Timed Rhythm, Schwa (/ə/) & Catenation -->
+    <section id="pronunciationSection" class="porcelain-card p-6 md:p-8">
+      <div class="mb-6">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-pink-600 font-serif-luxury">Pronunciation Architecture</span>
+        <h3 class="text-xl md:text-2xl font-bold text-pink-950 font-serif-luxury flex items-center gap-2">
+          <span>🎶</span> British Stress-Timed Rhythm, Schwa (/ə/) & Catenation
+        </h3>
+        <p class="text-xs text-pink-900/80 mt-1 font-garamond text-base">
+          British English is musical and stress-timed. Glide through unstressed syllables, squash them into the Schwa (/ə/), and connect words seamlessly.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        
+        <!-- Stress-Timing & Schwa Card -->
+        <div class="bg-white/80 p-5 rounded-2xl border border-pink-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-lg">👄</span>
+            <h4 class="font-bold text-pink-900 font-serif-luxury text-sm">The Neutral Vowel: Schwa (/ə/)</h4>
+          </div>
+          <p class="text-xs text-slate-700 leading-relaxed mb-3">
+            Mouth completely relaxed, tongue resting in the center. Unstressed vowels become this gentle sound:
+          </p>
+          <div class="grid grid-cols-2 gap-2 text-xs font-medium">
+            <div class="p-2 rounded-lg bg-pink-50 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-100" data-speak="community">
+              <span>c<span class="schwa-rose">o</span>mmunity (/kəˈmjuːnəti/)</span>
+              <span class="text-pink-600">🔊</span>
+            </div>
+            <div class="p-2 rounded-lg bg-pink-50 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-100" data-speak="suppose">
+              <span>s<span class="schwa-rose">u</span>ppose (/səˈpəʊz/)</span>
+              <span class="text-pink-600">🔊</span>
+            </div>
+            <div class="p-2 rounded-lg bg-pink-50 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-100" data-speak="observe">
+              <span><span class="schwa-rose">o</span>bserve (/əbˈzɜːv/)</span>
+              <span class="text-pink-600">🔊</span>
+            </div>
+            <div class="p-2 rounded-lg bg-pink-50 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-100" data-speak="convince">
+              <span>c<span class="schwa-rose">o</span>nvince (/kənˈvɪns/)</span>
+              <span class="text-pink-600">🔊</span>
+            </div>
+          </div>
+
+          <div class="mt-3 p-2.5 rounded-xl bg-rose-50/70 border border-rose-200 text-[11px] text-rose-900">
+            <strong>British County Endings:</strong> <em>Yorkshire, Hampshire, Oxfordshire</em> all end in the soft Schwa (/ʃə/)!
+          </div>
+        </div>
+
+        <!-- Consonant-to-Vowel Catenation Card -->
+        <div class="bg-white/80 p-5 rounded-2xl border border-pink-200 shadow-sm">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-lg">🎀</span>
+            <h4 class="font-bold text-pink-900 font-serif-luxury text-sm">Consonant-to-Vowel Catenation (`‿`)</h4>
+          </div>
+          <p class="text-xs text-slate-700 leading-relaxed mb-3">
+            Words must not stop abruptly when the next word starts with a vowel sound. Link them together:
+          </p>
+          <div class="space-y-2 text-xs">
+            <div class="p-2 rounded-lg bg-pink-50 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-100" data-speak="Hold on a second">
+              <span>Hold <span class="catenate-ribbon">‿</span> on <span class="catenate-ribbon">‿</span> a second &rarr; <em>/həʊl-dɒn/</em></span>
+              <span class="text-pink-600">🔊</span>
+            </div>
+            <div class="p-2 rounded-lg bg-pink-50 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-100" data-speak="First of all">
+              <span>First <span class="catenate-ribbon">‿</span> of <span class="catenate-ribbon">‿</span> all &rarr; <em>/fɜː-stə-vɔːl/</em></span>
+              <span class="text-pink-600">🔊</span>
+            </div>
+            <div class="p-2 rounded-lg bg-pink-50 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-100" data-speak="Turn out">
+              <span>Turn <span class="catenate-ribbon">‿</span> out &rarr; <em>/tɜː-naʊt/</em></span>
+              <span class="text-pink-600">🔊</span>
+            </div>
+            <div class="p-2 rounded-lg bg-pink-50 border border-pink-200 flex items-center justify-between cursor-pointer hover:bg-pink-100" data-speak="Brush it off">
+              <span>Brush <span class="catenate-ribbon">‿</span> it <span class="catenate-ribbon">‿</span> off &rarr; <em>/brʌ-ʃɪ-tɒf/</em></span>
+              <span class="text-pink-600">🔊</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Practice Sentences Drill -->
+      <div class="p-5 rounded-2xl bg-gradient-to-r from-pink-50 via-white to-pink-50 border border-pink-200">
+        <h4 class="font-bold text-pink-900 font-serif-luxury text-sm mb-3 flex items-center gap-2">
+          <span>📖</span> Cadence Drill Sentences (Click Any Sentence to Hear British RP Delivery):
+        </h4>
+        <div class="space-y-2 text-xs md:text-sm">
+          <div class="p-3 rounded-xl bg-white border border-pink-200 hover:border-pink-300 flex items-center justify-between cursor-pointer transition" data-speak="Hold on a second, let me think it over with a cup of tea.">
+            <span>1. <em>Hold <span class="catenate-ribbon">‿</span> on <span class="catenate-ribbon">‿</span> a second, let me think <span class="catenate-ribbon">‿</span> it <span class="catenate-ribbon">‿</span> over with <span class="catenate-ribbon">‿</span> a cup <span class="catenate-ribbon">‿</span> of tea.</em></span>
+            <span class="text-pink-600 font-semibold text-xs ml-2">🔊 Play</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-pink-200 hover:border-pink-300 flex items-center justify-between cursor-pointer transition" data-speak="First of all, the garden party turned out much better than expected.">
+            <span>2. <em>First <span class="catenate-ribbon">‿</span> of <span class="catenate-ribbon">‿</span> all, the garden party turned <span class="catenate-ribbon">‿</span> out much better than <span class="catenate-ribbon">‿</span> expected.</em></span>
+            <span class="text-pink-600 font-semibold text-xs ml-2">🔊 Play</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-pink-200 hover:border-pink-300 flex items-center justify-between cursor-pointer transition" data-speak="To be fair, she brushed it off as if nothing had happened.">
+            <span>3. <em>To be fair, she brushed <span class="catenate-ribbon">‿</span> it <span class="catenate-ribbon">‿</span> off <span class="catenate-ribbon">‿</span> as <span class="catenate-ribbon">‿</span> if nothing had happened.</em></span>
+            <span class="text-pink-600 font-semibold text-xs ml-2">🔊 Play</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-pink-200 hover:border-pink-300 flex items-center justify-between cursor-pointer transition" data-speak="Quite frankly, claiming they were unaware is a bit of a stretch.">
+            <span>4. <em>Quite frankly, claiming they were unaware <span class="catenate-ribbon">‿</span> is <span class="catenate-ribbon">‿</span> a bit <span class="catenate-ribbon">‿</span> of <span class="catenate-ribbon">‿</span> a stretch.</em></span>
+            <span class="text-pink-600 font-semibold text-xs ml-2">🔊 Play</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white border border-pink-200 hover:border-pink-300 flex items-center justify-between cursor-pointer transition" data-speak="At the end of the day, we need an answer that suits everyone.">
+            <span>5. <em>At the <span class="catenate-ribbon">‿</span> end <span class="catenate-ribbon">‿</span> of the day, we need <span class="catenate-ribbon">‿</span> an <span class="catenate-ribbon">‿</span> answer that suits everyone.</em></span>
+            <span class="text-pink-600 font-semibold text-xs ml-2">🔊 Play</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: 16-Card Porcelain Tea Tin Memory Match Game -->
+    <section id="memorySection" class="porcelain-card p-6 md:p-8">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-pink-600 font-serif-luxury">Live Preply Call-Out Game</span>
+          <h3 class="text-xl md:text-2xl font-bold text-pink-950 font-serif-luxury flex items-center gap-2">
+            <span>🎴</span> 16-Card Porcelain Tea Tin Memory Game
+          </h3>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-bold text-pink-900 bg-pink-100 px-3 py-1 rounded-full border border-pink-200">
+            Pairs Matched: <span id="matchedPairsCount">0</span> / 8
+          </span>
+          <button id="memoryResetBtn" class="px-3 py-1.5 rounded-xl bg-pink-500 hover:bg-pink-600 text-white text-xs font-semibold transition shadow-sm">
+            🔄 Reshuffle Deck
+          </button>
+        </div>
+      </div>
+
+      <p class="text-xs text-pink-900/80 mb-6 font-garamond text-base">
+        Call out two numbered tea tins (e.g. <em>"Tin #3 and Tin #11!"</em>). When revealed, deliver an instantaneous definition or reaction in British English!
+      </p>
+
+      <!-- 16-Card Grid (4x4) -->
+      <div id="memoryCardsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
+        <!-- Injected via salon-app.js -->
+      </div>
+    </section>
+
+    <!-- SECTION 6: In-Browser Voice Recording Booth -->
+    <section id="boothSection" class="porcelain-card p-6 md:p-8">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-pink-600 font-serif-luxury">Audio Self-Assessment Studio</span>
+          <h3 class="text-xl md:text-2xl font-bold text-pink-950 font-serif-luxury flex items-center gap-2">
+            <span>🎙️</span> Hania's Voice Recording Booth
+          </h3>
+        </div>
+        <span class="text-xs text-pink-800 bg-pink-100 px-3 py-1 rounded-full border border-pink-200 font-medium">
+          Test Your Rhythm & Intonation
+        </span>
+      </div>
+
+      <p class="text-xs text-pink-900/80 mb-4 font-garamond text-base">
+        Record your 20-second definitions or read-aloud practice sentences. Watch the real-time waveform visualizer and listen back to fine-tune your stress-timed rhythm!
+      </p>
+
+      <div class="bg-gradient-to-b from-pink-50/70 to-rose-100/60 p-6 rounded-2xl border-2 border-pink-200/90 flex flex-col items-center justify-center text-center">
+        <!-- Live Waveform Visualizer -->
+        <canvas id="recordWaveformCanvas" width="400" height="70" class="w-full max-w-md h-16 rounded-xl bg-white/90 border border-pink-200 shadow-inner mb-4"></canvas>
+
+        <p id="recordStatus" class="text-xs font-semibold text-pink-900 mb-3">
+          Click below to start recording your voice note:
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button id="recordAudioBtn" class="px-5 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs transition shadow-md flex items-center gap-2">
+            <span>🎙️</span> Record Voice Note
+          </button>
+        </div>
+
+        <audio id="recordedAudioPlayback" controls class="hidden mt-4 max-w-sm w-full accent-pink-600"></audio>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Elegant English Afternoon Tea Footer -->
+  <footer class="border-t border-pink-200/80 bg-white/80 backdrop-blur-md py-6 mt-12 text-center text-xs text-pink-900/80">
+    <div class="max-w-5xl mx-auto px-4 flex flex-wrap items-center justify-between gap-3">
+      <p class="font-serif-luxury">
+        🌸 Hania's Executive British English Coaching Salon &bull; Modern RP / SSBE
+      </p>
+      <p class="font-medium">
+        Tutor: Lewis O. &bull; Preply Executive Accent Training 🇬🇧
+      </p>
+    </div>
+  </footer>
+
+  <!-- Application Logic Scripts -->
+  <script src="assets/js/tea-audio.js"></script>
+  <script src="assets/js/leaf-physics.js"></script>
+  <script src="assets/js/salon-app.js"></script>
+</body>
+</html>
