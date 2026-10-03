@@ -15,6 +15,11 @@
 
   <!-- Three.js for 3D Physics and Leaves -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://unpkg.com/three@0.128.0/build/three.min.js"><\/script>');
+    }
+  </script>
 
   <!-- Google Fonts: Luxury English Tea & Girly Calligraphy -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
