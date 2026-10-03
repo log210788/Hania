@@ -318,18 +318,16 @@ const mats=[
 ].map(m=>({g:m.g,mat:new THREE.MeshStandardMaterial({color:m.c,roughness:.55,metalness:.05})}));
 
 /* physics */
-const world=new CANNON.World({gravity:new CANNON.Vec3(0,-2.2,0)});
-world.allowSleep=true; world.broadphase=new CANNON.SAPBroadphase(world);
+const world=new CANNON.World({gravity:new CANNON.Vec3(0,-1.1,0)});
+world.allowSleep=false; world.broadphase=new CANNON.SAPBroadphase(world);
 world.defaultContactMaterial.friction=.6; world.defaultContactMaterial.restitution=.05;
 function wall(pos,rotAxis,ang){const b=new CANNON.Body({mass:0,shape:new CANNON.Plane()});
   b.position.set(...pos); if(rotAxis)b.quaternion.setFromAxisAngle(rotAxis,ang); world.addBody(b); return b}
 let floorY=-5, halfW=8, halfH=6, walls=[];
 function buildBounds(){ walls.forEach(w=>world.removeBody(w)); walls=[
-  wall([0,floorY,0],new CANNON.Vec3(1,0,0),-Math.PI/2),
+  // only thin front/back panes keep leaves in a shallow layer; no floor, so nothing piles up
   wall([0,0,-1.2],null,0),
-  wall([0,0,1.2],new CANNON.Vec3(0,1,0),Math.PI),
-  wall([-halfW,0,0],new CANNON.Vec3(0,1,0),Math.PI/2),
-  wall([halfW,0,0],new CANNON.Vec3(0,1,0),-Math.PI/2)]}
+  wall([0,0,1.2],new CANNON.Vec3(0,1,0),Math.PI)]}
 
 function resize(){const w=innerWidth,h=innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
   halfH=Math.tan(THREE.MathUtils.degToRad(22.5))*camera.position.z; halfW=halfH*camera.aspect; floorY=-halfH+.25; buildBounds()}
@@ -361,15 +359,15 @@ const clock=new THREE.Clock(); let acc=0;
 function frame(){
   const dt=Math.min(clock.getDelta(),.05), t=clock.elapsedTime; acc+=dt;
   scrollV=(scrollY-lastScroll); lastScroll=scrollY;
-  if(items.length<MAX && Math.random()<dt*2.2) spawn((Math.random()*2-1)*halfW,halfH+.8);
-  const gust=Math.sin(t*.4)*.35;
-  for(const it of items){const b=it.body;
-    if(b.sleepState===CANNON.Body.SLEEPING && !ptr.on && Math.abs(scrollV)<2) continue;
-    if(b.position.y>floorY+.6){ // flutter while airborne
-      b.applyForce(new CANNON.Vec3(Math.sin(t*1.3+it.phase)*.12+gust*.1, Math.cos(t*2.1+it.phase)*.05, 0));
-      b.torque.x+=Math.sin(t*1.7+it.phase)*.01; b.torque.z+=Math.cos(t*1.1+it.phase)*.01; b.angularVelocity.y+=(Math.random()-.5)*.05;
-    }
-    if(Math.abs(scrollV)>1){b.wakeUp(); b.velocity.x+=scrollV*.01*(.5+Math.random())}
+  if(items.length<MAX && Math.random()<dt*4) spawn((Math.random()*2-1)*halfW*1.2,halfH+.8);
+  for(const it of items){const b=it.body, p=b.position;
+    // a swirling breeze: wind direction varies with height and time, so leaves keep drifting
+    const wx=Math.sin(p.y*.55+t*.7+it.phase*.2)*.5+Math.sin(t*.35)*.25+.12;
+    const wy=Math.cos(p.x*.45+t*.9+it.phase)*.22;
+    b.applyForce(new CANNON.Vec3(wx*.25, wy*.25+Math.sin(t*2.3+it.phase)*.04, Math.sin(t*.8+it.phase)*.01));
+    // tumbling flutter
+    b.torque.x+=Math.sin(t*1.7+it.phase)*.012; b.torque.z+=Math.cos(t*1.1+it.phase)*.012; b.angularVelocity.y+=(Math.random()-.5)*.08;
+    if(Math.abs(scrollV)>1){b.velocity.x+=scrollV*.01*(.5+Math.random())}
     if(ptr.on){const dx=b.position.x-ptr.x, dy=b.position.y-ptr.y, d=Math.hypot(dx,dy);
       if(d<1.8){const f=(1-d/1.8); b.wakeUp(); b.velocity.x+=(dx/(d||1))*f*.5+ptr.vx*f*3; b.velocity.y+=(dy/(d||1))*f*.4+ptr.vy*f*3+f*.1;
         b.angularVelocity.z+=(Math.random()-.5)*f*3}}
@@ -381,7 +379,7 @@ function frame(){
   world.step(1/60,dt,3);
   for(const it of items){it.mesh.position.copy(it.body.position); it.mesh.quaternion.copy(it.body.quaternion)}
   renderer.render(scene,camera); requestAnimationFrame(frame)}
-for(let i=0;i<14;i++) spawn((Math.random()*2-1)*halfW,Math.random()*halfH*1.6-halfH*.4);
+for(let i=0;i<Math.floor(MAX*.7);i++) spawn((Math.random()*2-1)*halfW,(Math.random()*2-1)*halfH);
 frame();
 }catch(e){ /* page still looks lovely without the 3D layer */ }
 </script>
