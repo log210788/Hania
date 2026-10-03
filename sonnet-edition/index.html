@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hania's Tea Notes · Week 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Pinyon+Script&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rose:#f6b8cf; --blush:#fde6ee; --petal:#f9d3e0; --deep:#b83a73; --berry:#8c2a58;
+  --cream:#fffaf4; --sage:#8fb89a; --gold:#d9a85b; --ink:#5b2c43;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); font-family:'Quicksand',system-ui,sans-serif; line-height:1.65;
+  background:
+    repeating-linear-gradient(0deg, rgba(246,184,207,.18) 0 28px, transparent 28px 56px),
+    repeating-linear-gradient(90deg, rgba(246,184,207,.18) 0 28px, transparent 28px 56px),
+    linear-gradient(160deg,#fff3f7,#fde6ee 55%,#fbe0ea);
+  background-attachment:fixed;
+}
+#leaves{position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none}
+main,header,footer,nav{position:relative; z-index:1}
+
+/* hero */
+header{text-align:center; padding:11vh 20px 9vh}
+.script{font-family:'Pinyon Script',cursive; color:var(--deep); font-size:clamp(2.2rem,6vw,3.6rem); margin:0}
+h1{font-family:'Cormorant Garamond',serif; font-weight:700; font-size:clamp(2.2rem,6vw,4.2rem); margin:.1em 0; color:var(--berry); letter-spacing:.01em}
+.sub{font-style:italic; font-family:'Cormorant Garamond',serif; font-size:1.3rem}
+.teapot{font-size:3.4rem; display:inline-block; animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
+.chips{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+.chip{background:var(--cream); border:1.5px dashed var(--rose); border-radius:999px; padding:5px 16px; font-size:.9rem}
+.hint{margin-top:22px; font-size:.85rem; opacity:.75}
+
+nav{position:sticky; top:10px; z-index:10; display:flex; gap:6px; flex-wrap:wrap; justify-content:center;
+  width:fit-content; max-width:94vw; margin:0 auto 28px; padding:8px 12px; border-radius:999px;
+  background:rgba(255,250,244,.85); backdrop-filter:blur(8px); box-shadow:0 6px 24px rgba(184,58,115,.18)}
+nav a{color:var(--berry); text-decoration:none; font-weight:600; font-size:.85rem; padding:5px 12px; border-radius:999px; transition:.2s}
+nav a:hover{background:var(--petal)}
+
+main{max-width:1000px; margin:0 auto; padding:0 18px 60px}
+section{
+  background:rgba(255,250,244,.84); backdrop-filter:blur(3px);
+  border:2px solid var(--rose); outline:2px dashed var(--rose); outline-offset:-10px;
+  border-radius:26px; padding:34px clamp(20px,4vw,42px); margin-bottom:34px;
+  box-shadow:0 14px 40px rgba(184,58,115,.12);
+}
+h2{font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--berry); margin:0 0 4px}
+h2::after{content:"❀ ❀ ❀"; display:block; color:var(--rose); font-size:.8rem; letter-spacing:.5em; margin-top:2px}
+h3{font-family:'Cormorant Garamond',serif; color:var(--deep); font-size:1.35rem; margin:1.4em 0 .3em}
+.lead{font-style:italic; font-family:'Cormorant Garamond',serif; font-size:1.2rem}
+code,.ipa{font-family:'Cambria','Segoe UI Symbol',serif; background:var(--blush); padding:1px 7px; border-radius:8px; color:var(--berry)}
+blockquote{margin:14px 0; padding:10px 18px; border-left:5px solid var(--rose); background:var(--blush); border-radius:0 14px 14px 0}
+
+/* speed matrix */
+.sprint{display:flex; flex-wrap:wrap; gap:18px; align-items:center; background:var(--blush); border-radius:20px; padding:18px}
+.ring{width:96px; height:96px; border-radius:50%; display:grid; place-items:center; font:700 2rem 'Cormorant Garamond',serif;
+  background:conic-gradient(var(--deep) var(--p,0%), var(--petal) 0); position:relative; color:var(--berry)}
+.ring::before{content:""; position:absolute; inset:9px; background:var(--cream); border-radius:50%}
+.ring span{position:relative}
+button{font:600 .95rem 'Quicksand',sans-serif; border:0; cursor:pointer; color:#fff; background:linear-gradient(135deg,#e0699b,var(--deep));
+  padding:10px 22px; border-radius:999px; box-shadow:0 5px 14px rgba(184,58,115,.3); transition:.2s}
+button:hover{transform:translateY(-2px)}
+button.ghost{background:var(--cream); color:var(--berry); box-shadow:none; border:1.5px solid var(--rose); padding:4px 12px; font-size:.8rem}
+#prompt{font:700 1.5rem 'Cormorant Garamond',serif; color:var(--berry)}
+
+/* flip cards */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; margin-top:18px}
+.flip{perspective:900px; height:250px; cursor:pointer}
+.flip .in{position:relative; width:100%; height:100%; transition:transform .7s cubic-bezier(.3,.8,.3,1); transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.face{position:absolute; inset:0; backface-visibility:hidden; border-radius:20px; padding:18px; display:flex; flex-direction:column; justify-content:center; text-align:center}
+.front{background:linear-gradient(145deg,#fff,var(--petal)); border:2px solid var(--rose)}
+.front .n{font:700 .9rem 'Quicksand'; color:var(--gold); letter-spacing:.2em}
+.front .w{font:700 1.7rem/1.15 'Cormorant Garamond',serif; color:var(--berry); margin:6px 0}
+.back{background:linear-gradient(145deg,var(--berry),var(--deep)); color:#fff; transform:rotateY(180deg); font-size:.85rem; overflow:auto; justify-content:flex-start}
+.back em{display:block; margin-top:8px; color:#ffe3ee}
+.back b{color:#ffd9e6}
+.flip small{opacity:.6}
+
+/* tables & ladder */
+.table-wrap{overflow-x:auto}
+table{border-collapse:separate; border-spacing:0; width:100%; font-size:.92rem}
+th{background:var(--rose); color:var(--berry); text-align:left; padding:9px 12px}
+th:first-child{border-radius:12px 0 0 0} th:last-child{border-radius:0 12px 0 0}
+td{padding:9px 12px; border-bottom:1px dashed var(--rose); vertical-align:top; background:rgba(255,255,255,.55)}
+.ladder{display:grid; gap:12px; margin-top:12px}
+.rung{border-radius:18px; padding:14px 18px}
+.r1{background:linear-gradient(90deg,#f9a8c8,#fbc8dc)} .r2{background:linear-gradient(90deg,#fcd5e3,#fde6ee)} .r3{background:linear-gradient(90deg,#fdf0f4,#fff8f2); border:1.5px dashed var(--rose)}
+.rung h4{margin:0 0 4px; font-family:'Cormorant Garamond',serif; font-size:1.25rem; color:var(--berry)}
+.say{display:inline-block; background:var(--cream); border-radius:999px; padding:2px 12px; margin:3px 4px 3px 0; font-size:.88rem; cursor:pointer; border:1px solid var(--rose)}
+.say:hover{background:#fff; border-color:var(--deep)}
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px}
+.card{background:#fff; border:1.5px solid var(--rose); border-radius:18px; padding:6px 20px 14px}
+ol.drills li{margin:10px 0; cursor:pointer; font-family:'Cormorant Garamond',serif; font-size:1.2rem}
+ol.drills li:hover{color:var(--deep)}
+footer{text-align:center; padding:10px 20px 60px; font-family:'Pinyon Script',cursive; font-size:1.8rem; color:var(--deep)}
+footer small{display:block; font:500 .8rem 'Quicksand'; color:var(--ink); opacity:.7}
+@media (prefers-reduced-motion:reduce){.teapot{animation:none}.flip .in{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="leaves" aria-hidden="true"></canvas>
+
+<header>
+  <div class="teapot">🫖</div>
+  <p class="script">Hania's</p>
+  <h1>Afternoon Tea Notes</h1>
+  <div class="sub">Week One · Modern British Rhythm &amp; Conversational Agility</div>
+  <div class="chips"><span class="chip">🌸 Student: Hania</span><span class="chip">🍰 Tutor: Lewis O.</span><span class="chip">🇬🇧 Modern RP</span></div>
+  <p class="hint">✨ Move your cursor to blow the leaves about · click anywhere on the background for a flurry of petals ✨</p>
+</header>
+
+<nav>
+  <a href="#sprint">Speed matrix</a><a href="#triggers">10 words</a><a href="#formulas">Formulas</a>
+  <a href="#tea">Preferences</a><a href="#sound">Sound</a><a href="#phrases">Phrases</a><a href="#drills">Drills</a>
+</nav>
+
+<main>
+<section id="sprint">
+  <h2>The Anti-Translation Sprint</h2>
+  <p class="lead">“Pour a fresh cup of Earl Grey and let English become a melody, not a puzzle.”</p>
+  <p>Our mission: <b>fluidity over translation</b>. Never pause to translate into or out of your first language. Follow the <b>3-second rule</b>:</p>
+  <ol>
+    <li>Open your mouth within <b>3 seconds</b>.</li>
+    <li>Keep talking for <b>20–30 seconds</b>.</li>
+    <li>Don't hunt for single words. Describe the mechanism, purpose or feeling in simple, confident English.</li>
+  </ol>
+  <div class="sprint">
+    <div class="ring" id="ring"><span id="count">3</span></div>
+    <div>
+      <div id="prompt">Press the button, pour a cuppa ☕</div>
+      <div><small id="status">A random word will appear. You have 3 seconds, then define it out loud!</small></div>
+      <p style="margin:10px 0 0"><button id="go">Surprise me 🫖</button></p>
+    </div>
+  </div>
+</section>
+
+<section id="triggers">
+  <h2>The 10 Concept Triggers</h2>
+  <p>Tap a card to turn it over. Tap 🔊 to hear it in a British voice.</p>
+  <div class="grid" id="cards"></div>
+</section>
+
+<section id="formulas">
+  <h2>The 3-Angle Definition Formula</h2>
+  <p>When Lewis throws a surprise prompt at you, launch straight into one of these:</p>
+  <div class="two">
+    <div class="card"><h3>1 · Functional</h3><blockquote>“It essentially refers to a state or situation where…”</blockquote><p><i>Complacency essentially refers to a state where people feel too comfortable to notice warning signs.</i></p></div>
+    <div class="card"><h3>2 · Contrast</h3><blockquote>“It's practically the polar opposite of X. Rather than Y, it involves…”</blockquote><p><i>A summit is the polar opposite of a sleepover. Rather than lounging about, it involves serious decisions.</i></p></div>
+    <div class="card"><h3>3 · Vignette</h3><blockquote>“Picture a scenario where… that's the textbook definition of it.”</blockquote><p><i>Picture a brand releasing a controversial advert and getting thousands of complaints overnight. That's a textbook backlash.</i></p></div>
+  </div>
+</section>
+
+<section id="tea">
+  <h2>The Afternoon Tea Preference Ladder</h2>
+  <p>Say goodbye to plain “I like it / I don't like it”. British English shows taste through <b>understatement</b>. Tap a phrase to hear it.</p>
+  <div class="ladder" id="ladder"></div>
+</section>
+
+<section id="sound">
+  <h2>Pronunciation &amp; Flow</h2>
+  <div class="two">
+    <div class="card">
+      <h3>1 · Stress-timed rhythm</h3>
+      <p>Some languages are <i>syllable-timed</i>: every syllable gets equal weight, <code>da-da-da-da</code>. British English is <b>stress-timed</b>: only key content words (nouns, main verbs, adjectives) get a strong beat. Everything else is squashed and quick.</p>
+      <blockquote>Glide over the little words so the strong beats land in a steady tempo.</blockquote>
+    </div>
+    <div class="card">
+      <h3>2 · The schwa <span class="ipa">/ə/</span></h3>
+      <p>The most common sound in English. Lips neutral, jaw loose, tongue relaxed in the middle.</p>
+      <p><span class="say">community /kəˈmjuːnəti/</span><span class="say">suppose /səˈpəʊz/</span><span class="say">observe /əbˈzɜːv/</span><span class="say">woman /ˈwʊmən/</span><span class="say">construction /kənˈstrʌkʃən/</span><span class="say">convince /kənˈvɪns/</span></p>
+      <p><small>Endings: <b>-shire</b> /ʃə/ (Yorkshire, Hampshire, Oxfordshire) · <b>-mouth</b> /məθ/ (Bournemouth, Portsmouth, Dartmouth)</small></p>
+    </div>
+  </div>
+  <h3>3 · Catenation, joining words like ribbon ‿</h3>
+  <p>If the next word starts with a vowel sound, the last consonant slides across to meet it.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Written</th><th>Sounds like</th></tr>
+    <tr><td>hold ‿ on</td><td><code>/həʊl-dɒn/</code></td></tr>
+    <tr><td>first ‿ of ‿ all</td><td><code>/fɜː-stə-vɔːl/</code></td></tr>
+    <tr><td>an ‿ apple</td><td><code>/ə-næp-əl/</code></td></tr>
+    <tr><td>turn ‿ out</td><td><code>/tɜː-naʊt/</code></td></tr>
+    <tr><td>brush ‿ off</td><td><code>/brʌ-ʃɒf/</code></td></tr>
+    <tr><td>pick ‿ it ‿ up</td><td><code>/pɪ-kɪ-tʌp/</code></td></tr>
+  </table></div>
+</section>
+
+<section id="phrases">
+  <h2>Phrasal Verbs &amp; Discourse Markers</h2>
+  <div class="table-wrap"><table id="phr"><tr><th>Expression</th><th>Meaning &amp; use</th><th>Example</th></tr></table></div>
+</section>
+
+<section id="drills">
+  <h2>Cadence Drills</h2>
+  <p>Read aloud with a musical cadence. Link every ‿ without pausing. Tap a line to hear the model.</p>
+  <ol class="drills" id="dl"></ol>
+  <h3>Salon prompts for next time 🫖</h3>
+  <ol>
+    <li><b>Digital complacency vs. organic living.</b> Have modern lifestyles made people complacent about real-world connection? Or are we awakening to the value of quiet, intimate gatherings?</li>
+    <li><b>Spontaneous joys.</b> When did you last make a completely spontaneous decision that turned out wonderfully?</li>
+    <li><b>Handling pushback.</b> When you introduce a new creative idea, how do you handle pushback without sounding ferocious or defensive?</li>
+  </ol>
+</section>
+</main>
+
+<footer>With love &amp; a good cuppa, Lewis O. 🌸<small>Tip: tap the leaves away, they come back in the breeze.</small></footer>
+
+<script>
+const concepts=[
+ ["Complacency","/kəmˈpleɪsənsi/","A dangerous feeling of uncritical satisfaction when blind to coming risks.","breed complacency · slide into complacency","Resting on past laurels breeds complacency in modern business."],
+ ["Orchestrated","/ˈɔːkɪstreɪtɪd/","Carefully pre-planned behind closed doors to seem organic.","orchestrated leak · orchestrated campaign","The dramatic media launch was thoroughly orchestrated."],
+ ["A Gathering","/ə ˈɡæðərɪŋ/","A group of people coming together in one place, from a high tea to a rally.","intimate gathering · family gathering","We held a charming garden tea gathering for the summer solstice."],
+ ["Spontaneous","/spɒnˈteɪniəs/","Arising from natural impulse rather than planning.","spontaneous decision · spontaneous applause","We booked a spontaneous weekend trip to the Cotswolds."],
+ ["Ferocious","/fəˈrəʊʃəs/","Fiercely intense, aggressively competitive or wildly powerful.","ferocious debate · ferocious competitor","Competition among London fashion houses is absolutely ferocious."],
+ ["A Common Occurrence","/ə ˈkɒmən əˈkʌrəns/","A habitual event that happens often, not a rarity.","everyday occurrence · frequent occurrence","A sudden drizzle in London is an unfortunately common occurrence."],
+ ["Awoken to a Problem","/əˈwəʊkən/","Suddenly realising a hazard you had been ignoring.","a rude awakening · a wake-up call","The supply chain disruption was a rude awakening for boutique designers."],
+ ["Sleepover vs. Summit","/ˈsliːpəʊvə/ · /ˈsʌmɪt/","A cosy informal overnight stay versus a high-stakes conference.","casual sleepover · diplomatic summit","This gathering isn't an informal sleepover; it's a high-stakes summit."],
+ ["Polarization","/ˌpəʊləraɪˈzeɪʃən/","A community splitting into two uncompromising camps.","deeply polarized · at loggerheads","Online discourse has fuelled sharper polarization in recent years."],
+ ["Pushback / Backlash","/ˈpʊʃbæk/ · /ˈbæklæʃ/","Strong negative reaction or resistance to a new decision.","face fierce pushback · spark a backlash","The new pricing policy met with immediate pushback."]
+];
+const ladder=[
+ ["r1","👑 Enthusiastic endorsement",["It's right up my street!","I'm thoroughly impressed by that.","I'm a massive fan of it, quite frankly."]],
+ ["r2","☕ Understated British approval",["It's not half bad, actually.","It certainly ticks all the right boxes.","I wouldn't say no to that!","I'm quite partial to it, to be fair."]],
+ ["r3","🌸 Polite diplomatic reservation",["It's not quite my cup of tea.","I can take it or leave it, to be fair.","It's a bit much for my liking.","It leaves a little to be desired."]]
+];
+const ladderNotes={"It's right up my street!":"",};
+const phrases=[
+ ["To be fair","Gracefully adding balance or a counterpoint.","The boutique is pricey, but to be fair, the cashmere is sublime."],
+ ["At the end of the day","Summing up the unavoidable truth.","At the end of the day, you must trust your creative instinct."],
+ ["Quite frankly","An honest, direct remark, politely but firmly.","Quite frankly, the original design was far too cluttered."],
+ ["A bit of a stretch","Exaggerated or hard to believe.","Calling that tiny delay a catastrophe is a bit of a stretch."],
+ ["Come across (as)","The impression you give to others.","In meetings she always comes across as gracious yet authoritative."],
+ ["Turn out","To end up, often surprisingly well.","We dreaded the rain, but the tea turned out to be glorious."],
+ ["Brush off","To dismiss criticism without taking it to heart.","She brushed off the critique with a charming smile."]
+];
+const drills=[
+ "Hold on a second, let me think it over with a cup of tea.",
+ "First of all, the garden party turned out much better than expected.",
+ "To be fair, she brushed it off as if nothing had happened.",
+ "Quite frankly, claiming they were unaware is a bit of a stretch.",
+ "At the end of the day, we need an answer that suits everyone."
+];
+
+/* speech */
+let voice=null;
+function pickVoice(){const v=speechSynthesis.getVoices(); voice=v.find(x=>/en-GB/i.test(x.lang)&&/female|hazel|susan|libby|sonia|serena|kate/i.test(x.name))||v.find(x=>/en-GB/i.test(x.lang))||null}
+if('speechSynthesis' in window){pickVoice(); speechSynthesis.onvoiceschanged=pickVoice}
+function speak(t){ if(!('speechSynthesis' in window))return; speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t.replace(/‿/g,' ').replace(/\/.*?\//g,'')); u.lang='en-GB'; if(voice)u.voice=voice; u.rate=.9; speechSynthesis.speak(u)}
+
+/* render */
+const cards=document.getElementById('cards');
+concepts.forEach((c,i)=>{
+  const d=document.createElement('div'); d.className='flip'; d.tabIndex=0;
+  d.innerHTML=`<div class="in"><div class="face front"><div class="n">№ ${String(i+1).padStart(2,'0')}</div><div class="w">${c[0]}</div><span class="ipa">${c[1]}</span><p style="margin:10px 0 0"><button class="ghost" data-say="${c[0]}">🔊 Listen</button></p><small>tap to turn over</small></div>
+  <div class="face back"><b>What it is</b>${c[2]}<em><b>Collocations</b><br>${c[3]}</em><em>“${c[4]}”</em></div></div>`;
+  d.addEventListener('click',e=>{ if(e.target.dataset.say){speak(e.target.dataset.say);return} d.classList.toggle('on')});
+  d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();d.classList.toggle('on')}});
+  cards.appendChild(d);
+});
+const L=document.getElementById('ladder');
+ladder.forEach(([cl,t,items])=>{const r=document.createElement('div'); r.className='rung '+cl;
+  r.innerHTML=`<h4>${t}</h4>`+items.map(x=>`<span class="say">${x}</span>`).join(''); L.appendChild(r)});
+document.addEventListener('click',e=>{ if(e.target.classList.contains('say')) speak(e.target.textContent)});
+const P=document.getElementById('phr');
+phrases.forEach(p=>{const tr=P.insertRow(); tr.innerHTML=`<td><b>${p[0]}</b></td><td>${p[1]}</td><td><i>“${p[2]}”</i></td>`});
+const DL=document.getElementById('dl');
+drills.forEach(t=>{const li=document.createElement('li'); li.textContent=t; li.onclick=()=>speak(t); DL.appendChild(li)});
+
+/* 3-second sprint */
+const ring=document.getElementById('ring'),count=document.getElementById('count'),prompt_=document.getElementById('prompt'),status_=document.getElementById('status');
+let timer=null;
+document.getElementById('go').onclick=()=>{
+  clearInterval(timer); const w=concepts[Math.floor(Math.random()*concepts.length)];
+  prompt_.textContent=`Define: “${w[0]}”`; speak(w[0]);
+  let t=3, phase=1, total=3; status_.textContent='3 seconds to start speaking…';
+  const tick=()=>{ count.textContent=Math.max(0,Math.ceil(t)); ring.style.setProperty('--p',(100*(1-t/total))+'%');
+    t-=.1;
+    if(t<=0){ if(phase===1){phase=2;t=total=25;status_.textContent='Keep going, speak for 20–30 seconds! 🌸';}
+      else{clearInterval(timer);count.textContent='✓';status_.textContent='Lovely! Press again for another word.';ring.style.setProperty('--p','100%')}}
+  };
+  timer=setInterval(tick,100);
+};
+</script>
+
+<script type="module">
+/* 3D leaves: three.js renders, cannon-es simulates the physics. */
+try{
+const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
+const CANNON=await import('https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js');
+if(matchMedia('(prefers-reduced-motion: reduce)').matches) throw 0;
+
+const canvas=document.getElementById('leaves');
+const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(45,1,.1,100); camera.position.z=14;
+scene.add(new THREE.HemisphereLight(0xfff0f5,0xf3b0c8,1.1));
+const sun=new THREE.DirectionalLight(0xffffff,1.6); sun.position.set(-4,8,10); scene.add(sun);
+
+/* shapes */
+function leafShape(){const s=new THREE.Shape();
+  s.moveTo(0,-.55); s.bezierCurveTo(.5,-.3,.5,.3,0,.6); s.bezierCurveTo(-.5,.3,-.5,-.3,0,-.55); return s}
+function petalShape(){const s=new THREE.Shape();
+  s.moveTo(0,-.45); s.bezierCurveTo(.55,-.25,.5,.35,.12,.5); s.quadraticCurveTo(0,.4,-.12,.5);
+  s.bezierCurveTo(-.5,.35,-.55,-.25,0,-.45); return s}
+const ext={depth:.04,bevelEnabled:true,bevelThickness:.015,bevelSize:.02,bevelSegments:2,curveSegments:14};
+const geos={leaf:new THREE.ExtrudeGeometry(leafShape(),ext),petal:new THREE.ExtrudeGeometry(petalShape(),ext)};
+Object.values(geos).forEach(g=>g.center());
+const mats=[
+  {g:'leaf', c:0x9cc7a6},{g:'leaf',c:0x7fb08f},{g:'leaf',c:0xb7d8b8},
+  {g:'petal',c:0xf6a5c3},{g:'petal',c:0xfbc3d7},{g:'petal',c:0xf48fb1},{g:'petal',c:0xffd9e6},{g:'petal',c:0xe9779f}
+].map(m=>({g:m.g,mat:new THREE.MeshStandardMaterial({color:m.c,roughness:.55,metalness:.05})}));
+
+/* physics */
+const world=new CANNON.World({gravity:new CANNON.Vec3(0,-2.2,0)});
+world.allowSleep=true; world.broadphase=new CANNON.SAPBroadphase(world);
+world.defaultContactMaterial.friction=.6; world.defaultContactMaterial.restitution=.05;
+function wall(pos,rotAxis,ang){const b=new CANNON.Body({mass:0,shape:new CANNON.Plane()});
+  b.position.set(...pos); if(rotAxis)b.quaternion.setFromAxisAngle(rotAxis,ang); world.addBody(b); return b}
+let floorY=-5, halfW=8, halfH=6, walls=[];
+function buildBounds(){ walls.forEach(w=>world.removeBody(w)); walls=[
+  wall([0,floorY,0],new CANNON.Vec3(1,0,0),-Math.PI/2),
+  wall([0,0,-1.2],null,0),
+  wall([0,0,1.2],new CANNON.Vec3(0,1,0),Math.PI),
+  wall([-halfW,0,0],new CANNON.Vec3(0,1,0),Math.PI/2),
+  wall([halfW,0,0],new CANNON.Vec3(0,1,0),-Math.PI/2)]}
+
+function resize(){const w=innerWidth,h=innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+  halfH=Math.tan(THREE.MathUtils.degToRad(22.5))*camera.position.z; halfW=halfH*camera.aspect; floorY=-halfH+.25; buildBounds()}
+addEventListener('resize',resize); resize();
+
+const MAX=innerWidth<700?34:62, items=[];
+function spawn(x,y,burst){
+  const kind=mats[Math.floor(Math.random()*mats.length)];
+  const mesh=new THREE.Mesh(geos[kind.g],kind.mat); const s=.8+Math.random()*.7; mesh.scale.setScalar(s); scene.add(mesh);
+  const body=new CANNON.Body({mass:.08,shape:new CANNON.Box(new CANNON.Vec3(.3*s,.4*s,.05)),
+    linearDamping:.55,angularDamping:.6,sleepSpeedLimit:.2,sleepTimeLimit:.8});
+  body.position.set(x,y,(Math.random()-.5)*1.4);
+  body.quaternion.setFromEuler(Math.random()*6,Math.random()*6,Math.random()*6);
+  body.angularVelocity.set((Math.random()-.5)*3,(Math.random()-.5)*3,(Math.random()-.5)*3);
+  if(burst)body.velocity.set((Math.random()-.5)*7,Math.random()*5+1,(Math.random()-.5)*2);
+  world.addBody(body); const it={mesh,body,phase:Math.random()*10,born:performance.now()}; items.push(it); return it}
+function recycle(it){it.body.position.set((Math.random()*2-1)*halfW,halfH+1,(Math.random()-.5)*1.4);
+  it.body.velocity.set(0,0,0); it.body.wakeUp(); it.born=performance.now()}
+
+/* interaction */
+const ptr={x:0,y:0,vx:0,vy:0,on:false}; let scrollV=0,lastScroll=scrollY;
+function toWorld(cx,cy){return [(cx/innerWidth*2-1)*halfW,-(cy/innerHeight*2-1)*halfH]}
+addEventListener('pointermove',e=>{const [x,y]=toWorld(e.clientX,e.clientY); ptr.vx=x-ptr.x; ptr.vy=y-ptr.y; ptr.x=x; ptr.y=y; ptr.on=true});
+addEventListener('pointerdown',e=>{ if(e.target.closest('button,a,.flip,.say,li,nav,table'))return;
+  const [x,y]=toWorld(e.clientX,e.clientY); for(let i=0;i<10;i++){ if(items.length<MAX+12) spawn(x,y,true); else recycle(items[i]), items[i].body.position.set(x,y,0)} });
+
+/* loop */
+const clock=new THREE.Clock(); let acc=0;
+function frame(){
+  const dt=Math.min(clock.getDelta(),.05), t=clock.elapsedTime; acc+=dt;
+  scrollV=(scrollY-lastScroll); lastScroll=scrollY;
+  if(items.length<MAX && Math.random()<dt*2.2) spawn((Math.random()*2-1)*halfW,halfH+.8);
+  const gust=Math.sin(t*.4)*.35;
+  for(const it of items){const b=it.body;
+    if(b.sleepState===CANNON.Body.SLEEPING && !ptr.on && Math.abs(scrollV)<2) continue;
+    if(b.position.y>floorY+.6){ // flutter while airborne
+      b.applyForce(new CANNON.Vec3(Math.sin(t*1.3+it.phase)*.12+gust*.1, Math.cos(t*2.1+it.phase)*.05, 0));
+      b.torque.x+=Math.sin(t*1.7+it.phase)*.01; b.torque.z+=Math.cos(t*1.1+it.phase)*.01; b.angularVelocity.y+=(Math.random()-.5)*.05;
+    }
+    if(Math.abs(scrollV)>1){b.wakeUp(); b.velocity.x+=scrollV*.01*(.5+Math.random())}
+    if(ptr.on){const dx=b.position.x-ptr.x, dy=b.position.y-ptr.y, d=Math.hypot(dx,dy);
+      if(d<1.8){const f=(1-d/1.8); b.wakeUp(); b.velocity.x+=(dx/(d||1))*f*.5+ptr.vx*f*3; b.velocity.y+=(dy/(d||1))*f*.4+ptr.vy*f*3+f*.1;
+        b.angularVelocity.z+=(Math.random()-.5)*f*3}}
+    if(b.position.y<floorY-2||Math.abs(b.position.x)>halfW+3) recycle(it);
+  }
+  // keep the pile tidy: oldest items go back to the sky
+  if(items.length>=MAX){const old=items.reduce((a,c)=>a.born<c.born?a:c); if(performance.now()-old.born>38000&&old.body.sleepState===CANNON.Body.SLEEPING) recycle(old)}
+  ptr.vx*=.8; ptr.vy*=.8;
+  world.step(1/60,dt,3);
+  for(const it of items){it.mesh.position.copy(it.body.position); it.mesh.quaternion.copy(it.body.quaternion)}
+  renderer.render(scene,camera); requestAnimationFrame(frame)}
+for(let i=0;i<14;i++) spawn((Math.random()*2-1)*halfW,Math.random()*halfH*1.6-halfH*.4);
+frame();
+}catch(e){ /* page still looks lovely without the 3D layer */ }
+</script>
+</body>
+</html>
