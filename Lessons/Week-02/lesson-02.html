@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 • Castaway Tea Salon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Yomogi&family=Kiwi+Maru:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+<style>
+:root{--pink:#ff8fc7;--sakura:#ffd6e8;--rose:#e0408f;--ink:#6b2a50;--lav:#d9c8ff;--mint:#c9f2e3;--cream:#fff7fb;--gold:#ffc46b;--ok:#34c38f;--bad:#ff6b8b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Zen Maru Gothic','Kiwi Maru',sans-serif;color:var(--ink);min-height:100vh;
+ background:linear-gradient(135deg,#ffe3f1 0%,#f0dcff 50%,#d9f3ff 100%);background-attachment:fixed;position:relative}
+#tsparticles{position:fixed;inset:0;z-index:0;pointer-events:none}
+header,nav,main{position:relative;z-index:1}
+header{text-align:center;padding:28px 12px 8px}
+h1{margin:0;font-family:'Yomogi','Zen Maru Gothic',cursive;color:var(--rose);font-size:2.3rem;text-shadow:3px 3px 0 #fff,0 0 18px #ff8fc799}
+header p{margin:6px 0 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:14px}
+nav button,.btn{background:#fff;border:2.5px solid var(--pink);color:var(--rose);padding:9px 18px;border-radius:999px;cursor:pointer;font-size:.95rem;font-family:inherit;font-weight:700;box-shadow:0 4px 0 var(--pink);transition:.15s}
+nav button.active,.btn.primary{background:linear-gradient(135deg,#ff9fd0,#c9a7ff);color:#fff;border-color:#fff;box-shadow:0 4px 0 #d27ab0}
+nav button:hover,.btn:hover{transform:translateY(-3px) rotate(-1deg)}
+nav button:active,.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--pink)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+main{max-width:980px;margin:0 auto;padding:0 14px 50px}
+section{display:none;background:rgba(255,255,255,.78);backdrop-filter:blur(8px);border:3px dotted var(--pink);border-radius:28px;padding:24px;box-shadow:0 10px 30px #ff8fc755,inset 0 0 0 6px #fff}
+section.active{display:block;animation:fadeInUp .5s}
+h2{margin-top:0;color:var(--rose);font-family:'Yomogi',cursive;font-size:1.6rem}
+h2::after{content:' ✿ ♡ ✿';color:var(--pink);font-size:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.item{background:#fff;border:2.5px solid var(--sakura);border-radius:20px;padding:12px;text-align:center;cursor:pointer;transition:.2s;user-select:none}
+.item:hover{border-color:var(--pink);transform:translateY(-4px) rotate(1.5deg)}
+.item.sel{background:linear-gradient(#fff,#ffe3f1);border-color:var(--rose);box-shadow:0 0 0 4px #ff8fc766;animation:pulse .5s}
+.item .emo{font-size:2.2rem}
+.item small{display:block;color:#a06a88}
+.bar{display:flex;gap:6px;align-items:center;margin:4px 0;font-size:.9rem}
+.bar i{flex:1;height:12px;background:#ffe3f1;border-radius:8px;overflow:hidden}
+.bar i b{display:block;height:100%;background:linear-gradient(90deg,#ff9fd0,#c9a7ff);transition:width .6s}
+.log{background:#fff;border-radius:16px;padding:10px 14px;margin:8px 0;border-left:6px solid var(--pink)}
+.log.ok{border-color:var(--ok)}.log.bad{border-color:var(--bad)}
+.big{font-size:1.5rem;text-align:center;margin:14px 0}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.opts button{padding:12px;border-radius:18px;border:2.5px solid var(--sakura);background:#fff;font-size:1rem;cursor:pointer;font-family:inherit;color:var(--ink)}
+.opts button:hover{border-color:var(--pink);transform:scale(1.03)}
+.opts button.right{background:var(--mint);border-color:var(--ok)}
+.opts button.wrong{background:#ffe0e8;border-color:var(--bad)}
+.timer{font-size:3rem;text-align:center;color:var(--rose);font-weight:bold;font-family:'Yomogi',cursive}
+.pill{display:inline-block;background:var(--sakura);border-radius:999px;padding:3px 12px;margin:3px;font-size:.9rem;cursor:pointer}
+.score{display:inline-block;background:linear-gradient(135deg,#ffe29a,#ffc46b);color:#6b3a00;border-radius:999px;padding:6px 18px;font-weight:700;border:3px solid #fff;box-shadow:0 4px 12px #ffc46b88;margin-top:8px}
+.card{background:#fff;border:2.5px dashed var(--pink);border-radius:22px;padding:16px;margin:10px 0}
+.hint{color:#a06a88;font-size:.9rem}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.badge{padding:8px 14px;border-radius:16px;background:#eee;filter:grayscale(1);opacity:.5}
+.badge.got{background:#fff3cf;filter:none;opacity:1;border:2.5px solid var(--gold);animation:tada 1s}
+.mascot{position:fixed;right:14px;bottom:10px;font-size:3rem;z-index:2;animation:bounce 2.5s infinite;cursor:pointer}
+#rankList{list-style:none;padding:0;margin:0}
+#rankList li{display:flex;align-items:center;gap:8px;background:#fff;border:2.5px solid var(--sakura);border-radius:18px;padding:8px 12px;margin:6px 0;font-size:1.05rem}
+#rankList li:first-child{border-color:var(--gold);background:#fff9e6}
+#rankList .handle{cursor:grab;font-size:1.4rem;color:var(--pink)}
+#rankList .arr{margin-left:auto}
+#rankList .arr button{border:2px solid var(--pink);background:#fff;color:var(--rose);border-radius:10px;cursor:pointer;margin-left:4px}
+.ghost{opacity:.4;background:var(--lav)!important}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+<div id="tsparticles"></div>
+<div class="mascot" id="mascot" title="Click me!">🐰</div>
+<header>
+  <h1>🌸 Week 2: Castaway Tea Salon 🏝️ <small style="font-size:1rem">〜無人島サバイバル〜</small></h1>
+  <p>Consonant elision, linking &amp; persuasive speaking — with Lewis O.</p>
+  <span class="score" id="totalScore">⭐ 0 pts</span>
+</header>
+<nav id="nav"></nav>
+<main>
+
+<!-- HOME -->
+<section id="home" class="active">
+  <h2>Welcome, Hania! 🌸</h2>
+  <p>Today you are shipwrecked, and the only rescue is your <b>British English</b>. Play the games in any order, earn stars and collect all the badges.</p>
+  <div class="card"><b>🎯 Today's goals</b><br>
+    1. Drop sounds naturally (<i>nex<u>t</u> day → "neks day"</i>).<br>
+    2. Hold doubled consonants (<i>hot tea → one long "t"</i>).<br>
+    3. Speak for 30 seconds with no translating (Week 1 rule!).<br>
+    4. Use <i>polite nuance</i>: "It's not quite my cup of tea…"
+  </div>
+  <h3>🏅 Badges</h3>
+  <div class="badges" id="badges"></div>
+</section>
+
+<!-- GAME 1 -->
+<section id="island">
+  <h2>🏝️ Game 1: The Castaway Ordeal — Rank All 15</h2>
+  <div class="card">
+    <b>The story:</b> your ship has sunk. All <b>15</b> items washed ashore, but you will not have time to use them all. 
+    <b>Rank every item</b> from most to least vital. Then a series of <b>situations</b> will test your English (formal register, nuance, grammar and spoken fluency).
+    A well-placed item <i>(top 5)</i> will cushion a failure. Poorly ranked? One mistake could cost you a life ❤️.
+  </div>
+  <div id="rankStage">
+    <h3>👑 Step 1: Rank the 15 items <small class="hint">(most vital at the top)</small></h3>
+    <p class="hint">Drag the ⠿ handle or use ▲▼. Click an item's 🔊 to hear it.</p>
+    <ol id="rankList"></ol>
+    <button class="btn" id="shuffleRank">🎲 Shuffle</button>
+    <button class="btn primary" id="goIsland">⛵ Lock in my ranking &amp; begin!</button>
+  </div>
+  <div id="ordeal" style="display:none"></div>
+</section>
+
+<!-- GAME 2 -->
+<section id="defend">
+  <h2>🎤 Game 2: Defend Your Choices (30-second talk)</h2>
+  <p>Press <b>Draw</b>. You get a random item <i>from your island kit</i> (or any item if you haven't played), a required phrase, and a 3-second reaction rule.</p>
+  <div class="card" id="defCard">Press Draw to begin…</div>
+  <div class="timer" id="defTimer">30</div>
+  <button class="btn primary" id="defDraw">🎴 Draw card</button>
+  <button class="btn" id="defStart">▶ Start 30 s</button>
+  <button class="btn" id="defDone">✅ I spoke the full time (+10)</button>
+  <p class="hint">Rule: open your mouth within 3 seconds. No silence, no translating!</p>
+</section>
+
+<!-- GAME 3 -->
+<section id="elision">
+  <h2>🔇 Game 3: Elision Detective</h2>
+  <p>Which sound disappears in fast British speech? Listen first 🔊.</p>
+  <div id="qElision"></div>
+</section>
+
+<!-- GAME 4 -->
+<section id="linking">
+  <h2>🔗 Game 4: Hold It! (Gemination &amp; Linking)</h2>
+  <p>When two identical consonants meet, <b>hold the sound once</b>. Choose the correct description.</p>
+  <div id="qLinking"></div>
+</section>
+
+<!-- GAME 5 -->
+<section id="nuance">
+  <h2>🍰 Game 5: The Polite Verdict</h2>
+  <p>Hania reacts to castaway ideas. Pick the <b>most natural British</b> response to the situation.</p>
+  <div id="qNuance"></div>
+</section>
+
+<!-- GAME 6 -->
+<section id="rescue">
+  <h2>🚁 Game 6: Rescue Radio — Speed Round</h2>
+  <p>A helicopter is searching. Each round shows a Week 1 or 2 word. Say a definition in <b>3 seconds</b> using a formula, then judge yourself.</p>
+  <div class="card big" id="rrWord">Ready?</div>
+  <div class="timer" id="rrTimer">3</div>
+  <button class="btn primary" id="rrNext">📡 Next word</button>
+  <button class="btn" id="rrYes">✅ Fast &amp; fluent (+5)</button>
+  <button class="btn" id="rrNo">😅 Too slow</button>
+  <p>Radio signal: <b id="rrSig">0</b>/10 — reach 10 and you are rescued!</p>
+  <p class="hint" id="rrFormula"></p>
+</section>
+
+<!-- GAME 7 -->
+<section id="court">
+  <h2>⚖️ Game 7: Island Council — Who Gets Thrown Overboard?</h2>
+  <p>A debate game. A dilemma appears; take a side for 30 seconds using <i>to be fair</i>, <i>quite frankly</i> or <i>at the end of the day</i>.</p>
+  <div class="card" id="courtCard">Press the button…</div>
+  <button class="btn primary" id="courtNext">⚖️ New dilemma</button>
+  <button class="btn" id="courtDone">I argued well (+10)</button>
+</section>
+
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+let total=0; const got=new Set();
+const BADGES={castaway:'🏝️ Survivor',talker:'🎤 Orator',detective:'🔇 Detective',holder:'🔗 Sound Holder',polite:'🍰 Very British',radio:'🚁 Rescued',judge:'⚖️ Councillor'};
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.85;const v=speechSynthesis.getVoices().find(v=>/en-GB/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+function pts(n){total+=n;$('#totalScore').textContent='⭐ '+total+' pts'}
+function party(){try{confetti({particleCount:120,spread:90,origin:{y:.6},colors:['#ff8fc7','#ffd6e8','#d9c8ff','#c9f2e3','#ffc46b']})}catch(e){}}
+function badge(k){if(got.has(k))return;got.add(k);renderBadges();pts(20);party()}
+/* tsParticles: drifting sakura petals, hearts and sparkles */
+try{
+ tsParticles.load('tsparticles',{fpsLimit:60,detectRetina:true,background:{color:'transparent'},
+  particles:{number:{value:45,density:{enable:true,area:900}},
+   color:{value:['#ffb7d5','#ff8fc7','#ffd6e8','#ffffff']},
+   shape:{type:['circle','star','heart']},
+   opacity:{value:{min:.4,max:.9}},size:{value:{min:4,max:11}},
+   rotate:{value:{min:0,max:360},direction:'random',animation:{enable:true,speed:12}},
+   move:{enable:true,direction:'bottom-right',speed:{min:1,max:2.5},straight:false,outModes:'out',random:true},
+   wobble:{enable:true,distance:15,speed:6},
+   twinkle:{particles:{enable:true,frequency:.05,opacity:1}}},
+  interactivity:{events:{onHover:{enable:true,mode:'bubble'},onClick:{enable:true,mode:'push'}},
+   modes:{bubble:{distance:120,size:16,duration:1,opacity:1},push:{quantity:6}}}});
+}catch(e){console.warn('particles unavailable',e)}
+const MASCOT=['がんばって！ You can do it! 🌸','すごい！ Sugoi!','Hold ‿ on ‿ a second~','Not half bad, actually! ✨','Tea time? ☕','かわいい！ Lovely!'];
+$('#mascot').onclick=()=>{party();alert(MASCOT[Math.floor(Math.random()*MASCOT.length)])};
+function renderBadges(){$('#badges').innerHTML=Object.entries(BADGES).map(([k,v])=>`<div class="badge ${got.has(k)?'got':''}">${v}</div>`).join('')}
+renderBadges();
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+
+/* NAV */
+const tabs=[['home','🏠 Home'],['island','🏝️ Survival'],['defend','🎤 Defend'],['elision','🔇 Elision'],['linking','🔗 Hold It'],['nuance','🍰 Verdict'],['rescue','🚁 Radio'],['court','⚖️ Council']];
+$('#nav').innerHTML=tabs.map(([id,l])=>`<button data-t="${id}">${l}</button>`).join('');
+function show(id){document.querySelectorAll('section').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.t===id))}
+$('#nav').onclick=e=>{if(e.target.dataset.t)show(e.target.dataset.t)};show('home');
+
+/* GAME 1: CASTAWAY ORDEAL (rank all 15, then language situations) */
+const ITEMS=[
+ {n:'Water filter',e:'🚰',p:'/ˈwɔːtə ˈfɪltə/'},
+ {n:'Fishing net',e:'🥅',p:'/ˈfɪʃɪŋ net/'},
+ {n:'Waterproof tarpaulin',e:'⛺',p:'/ˈwɔːtəpruːf tɑːˈpɔːlɪn/'},
+ {n:'First-aid kit',e:'🩹',p:'/ˌfɜːst ˈeɪd kɪt/'},
+ {n:'Box of matches',e:'🔥',p:'/bɒks əv ˈmætʃɪz/'},
+ {n:'Signal mirror',e:'🪞',p:'/ˈsɪɡnəl ˈmɪrə/'},
+ {n:'Machete',e:'🔪',p:'/məˈʃeti/'},
+ {n:'Strong rope',e:'🪢',p:'/strɒŋ rəʊp/'},
+ {n:'Cooking pot',e:'🍲',p:'/ˈkʊkɪŋ pɒt/'},
+ {n:'Sleeping bag',e:'🛌',p:'/ˈsliːpɪŋ bæɡ/'},
+ {n:'Sun cream',e:'🧴',p:'/sʌn kriːm/'},
+ {n:'Hand-crank radio',e:'📻',p:'/hænd kræŋk ˈreɪdiəʊ/'},
+ {n:'Compass & map',e:'🧭',p:'/ˈkʌmpəs ən mæp/'},
+ {n:'Tin of biscuits',e:'🍪',p:'/tɪn əv ˈbɪskɪts/'},
+ {n:'Ukulele',e:'🎵',p:'/ˌjuːkəˈleɪli/'}
+];
+const idx=n=>ITEMS.findIndex(i=>i.n===n);
+let order=ITEMS.map((_,i)=>i).sort(()=>Math.random()-.5);
+const medal=r=>['🥇','🥈','🥉'][r]||(r+1)+'.';
+function renderRank(){
+  $('#rankList').innerHTML=order.map((i,r)=>`<li data-i="${i}"><span class="handle">⠿</span> <b>${medal(r)}</b> ${ITEMS[i].e} <b>${ITEMS[i].n}</b> <small class="hint">${ITEMS[i].p}</small> <span class="pill" data-say="${i}">🔊</span>
+    <span class="arr"><button data-up="${r}">▲</button><button data-dn="${r}">▼</button></span></li>`).join('');
+}
+$('#rankList').onclick=e=>{
+  if(e.target.dataset.say){say(ITEMS[e.target.dataset.say].n);return}
+  const u=e.target.dataset.up,d=e.target.dataset.dn;
+  if(u!==undefined&&+u>0){const r=+u;[order[r-1],order[r]]=[order[r],order[r-1]];renderRank()}
+  if(d!==undefined&&+d<order.length-1){const r=+d;[order[r+1],order[r]]=[order[r],order[r+1]];renderRank()}};
+try{Sortable.create($('#rankList'),{handle:'.handle',animation:200,ghostClass:'ghost',
+  onEnd:()=>{order=[...$('#rankList').children].map(li=>+li.dataset.i);renderRank()}})}catch(e){}
+$('#shuffleRank').onclick=()=>{order.sort(()=>Math.random()-.5);renderRank()};
+renderRank();
+
+/* Situation bank. "item" = the item that would help; tokens {r1}..{r15} = item at that rank */
+const SITS=[
+ {id:'formal',item:'Hand-crank radio',type:'speak',title:'📻 Role-play: The Coastguard Calls',
+  npc:'Coastguard',line:'This is Coastguard Control to the survivors on the island. Please state your condition, your number, and exactly what assistance you require.',
+  text:'<b>You are the group spokesperson.</b> Reply to the officer in a <u>formal register</u>. Report your status and make a clear request for supplies. Your ranking says your <u>{r1}</u> matters most, so mention why. 45 seconds.',
+  model:'"Coastguard Control, this is the survivors\' spokesperson. We are all accounted for and in stable condition, although two of us are mildly dehydrated. We would be most grateful for fresh water and medical supplies at your earliest convenience."',
+  checks:['Formal register (no slang, no contractions overload)','Reported status AND made a clear request','Used a hedge or polite formula ("We would be most grateful…")','Spoke clearly with steady British rhythm']},
+ {id:'diplo',item:'Compass & map',type:'speak',title:'🧭 Role-play: The Reckless Captain',
+  npc:'Captain Fitz',line:'Right, listen up. We are crossing the reef tonight, in the dark. I have made my decision, and I will not be hearing any objections.',
+  text:'<b>You think it is far too dangerous.</b> Disagree with the Captain diplomatically but firmly, give reasons, and propose an alternative. 45 seconds.',
+  model:'"With the greatest respect, Captain, I\'m not entirely convinced that\'s wise, given how treacherous the tide is after dark. To be fair, I understand the urgency, but might I suggest we cross at dawn instead?"',
+  checks:['Used a softener ("With respect…", "I\'m not entirely convinced…")','Gave a reasoned justification','Offered an alternative (modals / suggestions)','Stayed polite but did not back down']},
+ {id:'inversion',item:'Box of matches',type:'mc',title:'🔥 Grammar Under Pressure',
+  text:'You\'re telling the story afterwards. Which sentence is grammatically correct and elegantly emphatic?',
+  o:['"Hardly we had lit the fire when the rain came."','"Hardly had we lit the fire when the rain came."','"Hardly did we had lit the fire when the rain came."','"We hardly had lit the fire when came the rain."'],a:1,
+  e:'Negative adverbials trigger inversion: "Hardly had we lit… when…".'},
+ {id:'nuance',item:'Tin of biscuits',type:'mc',title:'🍪 Decoding the Understatement',
+  text:'Your companion sighs: "I\'m rather partial to your recipe, to be fair, but it does leave a little to be desired." What does she really mean?',
+  o:['She adores it and wants seconds.','She likes parts of it but finds it disappointing overall.','She is furious and refuses to eat.','She hasn\'t tasted it yet.'],a:1,
+  e:'British understatement: polite praise softening a real criticism.'},
+ {id:'collocation',item:'Waterproof tarpaulin',type:'mc',title:'⛺ Precision Vocabulary',
+  text:'The chief\'s new rationing rule was met with ____ from the weary crew. Choose the best collocation.',
+  o:['heavy complacency','fierce pushback','spontaneous summit','a common gathering'],a:1,
+  e:'"met with fierce pushback" is a natural collocation (Week 1).'},
+ {id:'speak1',item:'Strong rope',type:'speak',title:'⚖️ The Quartermaster\'s Gambit',
+  text:'A wave is about to sweep away everything except your top 5. <b>Defend, aloud, why your {r6} deserved sixth place instead of fifth.</b> You have 45 seconds.',
+  checks:['Used a concessive structure ("Granted… / That said… / Admittedly…")','Used at least one idiom or phrasal verb from Week 1','Used one natural elision or linked phrase','Spoke without pauses longer than 3 seconds']},
+ {id:'speak2',item:'Signal mirror',type:'speak',title:'🎙️ The Radio Interview',
+  text:'A journalist, live on air, asks: <b>"Why on earth did you rank your {r1} first and your {r15} last?"</b> Answer for 45 seconds.',
+  checks:['Opened within 3 seconds (no "ummm")','Used a hypothetical (3rd or mixed conditional)','Used "Picture a scenario where…" or another Week 1 formula','Sounded confident and kept British rhythm']},
+ {id:'speak3',item:'First-aid kit',type:'speak',title:'🌊 Breaking Bad News',
+  text:'A rogue wave just stole your {r2}. <b>Break the news to the group tactfully, take responsibility, and propose a contingency.</b> 45 seconds.',
+  checks:['Used passive voice at least once for tact','Used a softener ("I\'m afraid…", "Unfortunately…")','Proposed a plan using modals (could / might / ought to)','Kept a calm, steady, stress-timed rhythm']},
+ {id:'speak4',item:'Machete',type:'speak',title:'🏛️ The Island Tribunal',
+  text:'You are cross-examined. <b>Argue that your {r8} should have been ranked number one.</b> Be persuasive, be nuanced, 45 seconds.',
+  checks:['Used a contrast chain ("Granted… That said… By the same token…")','Used a nuance phrase (e.g. "not half bad", "a bit of a stretch")','Included one rhetorical question','Finished with a strong "At the end of the day…" conclusion']}
+];
+const fill=t=>t.replace(/\{r(\d+)\}/g,(_,n)=>'<u>'+ITEMS[order[n-1]].n+'</u>');
+let G=null;
+$('#goIsland').onclick=()=>{
+  // pick 7 situations: 4 spoken role-plays/speeches + 3 language-knowledge questions
+  const speak=SITS.filter(s=>s.type==='speak').sort(()=>Math.random()-.5).slice(0,4);
+  const mc=SITS.filter(s=>s.type==='mc').sort(()=>Math.random()-.5).slice(0,3);
+  const list=[...speak,...mc].sort(()=>Math.random()-.5);
+  G={list,i:0,lives:3,score:0,log:[],locked:[...order]};
+  window.myKit=G.locked.map(i=>ITEMS[i].n);
+  $('#rankStage').style.display='none'; $('#ordeal').style.display='block'; nextSit();
+};
+const hearts=()=>'❤️'.repeat(G.lives)+'🖤'.repeat(3-G.lives);
+function nextSit(){
+  if(G.lives<=0||G.i>=G.list.length) return finish();
+  const s=G.list[G.i]; const rank=G.locked.indexOf(idx(s.item)); const safe=rank<5;
+  const head=`<p><b>Situation ${G.i+1}/${G.list.length}</b> &nbsp; ${hearts()} &nbsp; <span class="pill">🛟 Helpful item: ${ITEMS[idx(s.item)].e} ${s.item} — your rank #${rank+1} ${safe?'(safety net ✅)':'(exposed ⚠️)'}</span></p><h3>${s.title}</h3>`;
+  if(s.type==='mc'){
+    $('#ordeal').innerHTML=head+`<div class="card">${fill(s.text)}</div><div class="opts" id="sitOpts">${s.o.map((o,k)=>`<button data-k="${k}">${o}</button>`).join('')}</div><div id="sitFb"></div>`;
+    $('#sitOpts').onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;
+      document.querySelectorAll('#sitOpts button').forEach(x=>x.disabled=true);
+      const ok=+b.dataset.k===s.a; document.querySelectorAll('#sitOpts button')[s.a].classList.add('right'); if(!ok)b.classList.add('wrong');
+      resolve(s,ok,'💡 '+s.e)};
+  }else{
+    const npc=s.line?`<div class="card" style="border-style:solid;background:#f3ecff"><b>🎭 ${s.npc} says:</b> <i>"${s.line}"</i></div>`:'';
+    $('#ordeal').innerHTML=head+npc+`<div class="card">${fill(s.text)}</div>
+      <div class="timer" id="spTimer">45</div>
+      <button class="btn primary" id="spStart">▶ Start speaking</button>
+      <div class="card"><b>🧑‍🏫 Tutor checklist</b> <span class="hint">(pass = 3 of 4)</span>${s.checks.map((c,k)=>`<label style="display:block;margin:4px 0"><input type="checkbox" class="chk" data-k="${k}"> ${c}</label>`).join('')}</div>
+      <button class="btn" id="spDone">✅ Submit assessment</button><div id="sitFb"></div>`;
+    let t=45,iv=null;
+    $('#spStart').onclick=()=>{clearInterval(iv);t=45;$('#spTimer').textContent=t;iv=setInterval(()=>{t--;$('#spTimer').textContent=Math.max(t,0);if(t<=0){clearInterval(iv);say('Time is up')}},1000)};
+    $('#spDone').onclick=()=>{clearInterval(iv);const n=document.querySelectorAll('.chk:checked').length;
+      document.querySelector('#spDone').disabled=true;
+      resolve(s,n>=3,`Tutor marked ${n}/4 criteria.`+(s.model?`<br>🌟 <b>Model answer:</b> <i>${s.model}</i>`:''))};
+  }
+}
+function resolve(s,ok,expl){
+  const rank=G.locked.indexOf(idx(s.item)); const safe=rank<5; let msg;
+  if(ok){G.score+=10;pts(10);msg=`✅ Excellent! +10. ${safe?'Your well-ranked '+s.item+' gave you a bonus +5!':''}`;if(safe){G.score+=5;pts(5)}}
+  else if(safe){msg=`⚠️ A mistake, but your top-5 <b>${s.item}</b> cushioned the blow. No life lost.`}
+  else{G.lives--;msg=`💥 A mistake — and your <b>${s.item}</b> (rank #${rank+1}) was too far down to help. You lose a life!`}
+  G.log.push({t:s.title,ok});
+  $('#sitFb').innerHTML=`<div class="log ${ok?'ok':'bad'}">${msg}<br>${expl}</div><button class="btn primary" id="sitNext">Next situation ➡</button>`;
+  $('#sitNext').onclick=()=>{G.i++;nextSit()};
+}
+function finish(){
+  const wins=G.log.filter(l=>l.ok).length; const alive=G.lives>0;
+  $('#ordeal').innerHTML=`<div class="card big">${alive?'🚁 You were rescued!':'🌊 The island won this time…'}<br>
+    ${hearts()} • Language wins: ${wins}/${G.log.length} • Score: ${G.score}</div>
+    ${G.log.map(l=>`<div class="log ${l.ok?'ok':'bad'}">${l.ok?'✅':'❌'} ${l.t}</div>`).join('')}
+    <p class="hint">Next: go to <b>Defend</b>; your ranked list is used there.</p>
+    <button class="btn primary" id="replay">🔄 Play again with a new ranking</button>`;
+  if(alive&&wins>=G.log.length-1)badge('castaway');
+  $('#replay').onclick=()=>{$('#ordeal').style.display='none';$('#rankStage').style.display='block'};
+}
+
+/* GAME 2: DEFEND */
+const PHRASES=['To be fair…','Quite frankly…','At the end of the day…','It ticks all the right boxes because…','It\'s a bit of a stretch to say… but…','It turned out to be…','Picture a scenario where…','It essentially refers to…','Without it, we\'d come across as…'];
+const TWISTS=['Persuade a sceptical sailor to give it to you.','Explain why it beats the item you left behind.','Tell the rescue team on the radio about it.','Convince me it is your <i>only</i> way off the island.','Describe it WITHOUT saying its name.','Pretend it\'s broken. How does your group react?'];
+let dTime=null,dLeft=30;
+$('#defDraw').onclick=()=>{
+  const pool=window.myKit||ITEMS.map(i=>i.n); const it=rand(pool);
+  $('#defCard').innerHTML=`<b>Item:</b> ${it} <span class="pill" onclick="say('${it}')">🔊</span><br><b>Use phrase:</b> <span class="pill">${rand(PHRASES)}</span><br><b>Twist:</b> ${rand(TWISTS)}`;
+  clearInterval(dTime);dLeft=30;$('#defTimer').textContent=30;
+};
+$('#defStart').onclick=()=>{clearInterval(dTime);dLeft=30;$('#defTimer').textContent=dLeft;
+  dTime=setInterval(()=>{dLeft--;$('#defTimer').textContent=dLeft;if(dLeft<=0){clearInterval(dTime);say('Time is up');}},1000)};
+let spoke=0;
+$('#defDone').onclick=()=>{clearInterval(dTime);pts(10);if(++spoke>=3)badge('talker')};
+
+/* QUIZ ENGINE */
+function quiz(sel,data,badgeKey){
+  let i=0,sc=0; const el=$(sel); const order=[...data].sort(()=>Math.random()-.5);
+  function draw(){
+    if(i>=order.length){el.innerHTML=`<div class="card big">Finished! ${sc}/${order.length} 🎉<br><button class="btn primary" id="again${badgeKey}">Play again</button></div>`;
+      if(sc>=order.length-1)badge(badgeKey); $('#again'+badgeKey).onclick=()=>{i=0;sc=0;order.sort(()=>Math.random()-.5);draw()};return}
+    const q=order[i];
+    el.innerHTML=`<p class="hint">Question ${i+1}/${order.length}</p><div class="big">${q.q} <span class="pill" id="pl${badgeKey}">🔊 Listen</span></div><div class="opts">${q.o.map((o,k)=>`<button data-k="${k}">${o}</button>`).join('')}</div><div id="fb${badgeKey}" class="hint"></div>`;
+    $('#pl'+badgeKey).onclick=()=>say(q.say||q.q);
+    el.querySelector('.opts').onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;
+      el.querySelectorAll('.opts button').forEach(x=>x.disabled=true);
+      const k=+b.dataset.k; el.querySelectorAll('.opts button')[q.a].classList.add('right');
+      if(k===q.a){sc++;pts(5)}else b.classList.add('wrong');
+      $('#fb'+badgeKey).innerHTML=`💡 ${q.e} <br><button class="btn primary" id="nx${badgeKey}">Next ➡</button>`;
+      $('#nx'+badgeKey).onclick=()=>{i++;draw()}};
+  }
+  draw();
+}
+quiz('#qElision',[
+ {q:'next day',say:'next day',o:['The "x" disappears','The "t" is usually lost','The "d" is lost'],a:1,e:'/neks deɪ/ — the /t/ drops between /s/ and /d/.'},
+ {q:'friendship',say:'friendship',o:['/ˈfrenʃɪp/ — the "d" drops','/ˈfrendʃɪp/ every letter','/ˈfrenʃɪp/ — the "r" drops'],a:0,e:'The /d/ is swallowed: /ˈfrenʃɪp/.'},
+ {q:'postman',say:'postman',o:['/ˈpəʊstmən/ clearly','/ˈpəʊsmən/ — the "t" drops','/ˈpəʊmən/ — "st" drops'],a:1,e:'Casual speech: /ˈpəʊsmən/.'},
+ {q:'Wednesday',say:'Wednesday',o:['/ˈwenzdeɪ/ — the first "d" drops','/ˈwednesdeɪ/ — all letters','/ˈwenzdeɪ/ — the "w" drops'],a:0,e:'Famous trap: Wed-nes-day is /ˈwenzdeɪ/.'},
+ {q:'handbag',say:'handbag',o:['/ˈhændbæɡ/ — nothing changes','/ˈhæmbæɡ/ — "d" drops and "n" becomes "m"','/ˈhæŋbæɡ/ — "d" becomes "ng"'],a:1,e:'The /d/ disappears and /n/ shifts towards /m/ before /b/.'},
+ {q:'sandwich',say:'sandwich',o:['/ˈsænwɪtʃ/ — the "d" drops','/ˈsændwɪtʃ/ — "w" drops','/ˈsænwɪtʃ/ — "n" drops'],a:0,e:'/ˈsænwɪtʃ/ (or /ˈsæmwɪdʒ/).'},
+ {q:'government',say:'government',o:['/ˈɡʌvənmənt/ — normal','/ˈɡʌvmənt/ — the "ern" shrinks','/ˈɡʌvəmənt/ — "n" drops'],a:1,e:'Fast speech: /ˈɡʌvmənt/.'},
+ {q:'last night',say:'last night',o:['/lɑːs naɪt/ — the "t" in "last" drops','/lɑː naɪt/ — "st" drops','/lɑːst aɪt/ — "n" drops'],a:0,e:'/t/ before a consonant often vanishes: /lɑːs naɪt/.'},
+ {q:'exactly',say:'exactly',o:['/ɪɡˈzæktli/ clear','/ɪɡˈzækli/ — the "t" drops','/ɪɡˈzæt/ — "ly" drops'],a:1,e:'Triple consonant /ktl/ simplifies: /ɪɡˈzækli/.'},
+ {q:'mostly',say:'mostly',o:['/ˈməʊsli/ — the "t" drops','/ˈməʊtli/ — the "s" drops','/ˈməʊstl/ — "i" drops'],a:0,e:'/ˈməʊsli/.'}
+],'detective');
+quiz('#qLinking',[
+ {q:'hot tea',say:'hot tea',o:['Two separate /t/ sounds','One long held /t/'],a:1,e:'Hold the tongue once, then release: /hɒt‿tiː/ = long /t/.'},
+ {q:'black coat',say:'black coat',o:['Hold /k/ once, release into "coat"','Pronounce /k/ twice with a pause'],a:0,e:'Same sound meets itself, so it is held.'},
+ {q:'big girl',say:'big girl',o:['Two clear /ɡ/ bursts','One long /ɡ/'],a:1,e:'Hold /ɡ/ and release once.'},
+ {q:'good day',say:'good day',o:['/d/ + /d/ merge into one long /d/','Add a vowel between them'],a:0,e:'Never insert a vowel! /ɡʊd‿deɪ/ not /ɡʊdə deɪ/.'},
+ {q:'some milk',say:'some milk',o:['Long /m/ (two merge)','Short /m/ then silent pause'],a:0,e:'Hum on the /m/ for a beat longer.'},
+ {q:'cold drink',say:'cold drink',o:['/kəʊl drɪŋk/ — "d" often disappears','/kəʊld‿dɪrɪŋk/ two bursts'],a:0,e:'Elision + gemination combine: /kəʊl drɪŋk/.'},
+ {q:'an apple',say:'an apple',o:['/ə-næp-əl/ link n to the vowel','/æn æpəl/ glottal stop'],a:0,e:'Week 1 link: consonant slides onto the vowel.'},
+ {q:'take care',say:'take care',o:['Pronounce /k/ twice','Hold /k/ once then release'],a:1,e:'One long /k/: /teɪk‿keə/.'}
+],'holder');
+quiz('#qNuance',[
+ {q:'A friend sings out of tune. You want to be kind:',o:['"It\'s not quite my cup of tea, but you have spirit."','"You sing badly."','"I like it very much."'],a:0,e:'Understatement + warmth = British.'},
+ {q:'The biscuit tin is nearly empty. You want one:',o:['"I wouldn\'t say no to that."','"Give me."','"I do not want."'],a:0,e:'A polite yes with a smile.'},
+ {q:'The shelter is surprisingly sturdy. Praise it:',o:['"Not half bad, actually!"','"It is terrible."','"Okay."'],a:0,e:'"Not half bad" = actually very good.'},
+ {q:'Someone proposes eating the ukulele. Disagree politely:',o:['"That\'s a bit of a stretch, to be fair."','"Stupid!"','"Yes, sure."'],a:0,e:'Calm disagreement.'},
+ {q:'A radio message ruins the plan. What happened?',o:['It was a rude awakening.','It was a happy sleepover.','It was a spontaneous tea.'],a:0,e:'Week 1 callback: awoken to a problem.'},
+ {q:'Island meeting: everyone is split into two angry camps.',o:['The group is deeply polarised.','The group is complacent.','The group is orchestrated.'],a:0,e:'Polarisation = two opposing camps.'},
+ {q:'The new rule gets angry reactions:',o:['It faced fierce pushback.','It faced a gathering.','It was a sleepover.'],a:0,e:'Pushback = resistance.'},
+ {q:'A colleague\'s idea is dull. Gentle verdict:',o:['"It leaves a little to be desired."','"I\'m a massive fan."','"Right up my street!"'],a:0,e:'Refined criticism.'}
+],'polite');
+
+/* GAME 6: RADIO */
+const RW=[['complacency','Formula 1: It essentially refers to a state where…'],['orchestrated','Formula 3: Picture a scenario where…'],['spontaneous','Formula 2: the polar opposite of planned'],['polarisation','Formula 1'],['backlash','Formula 3'],['elision','Formula 1: It refers to a sound that…'],['gemination','Formula 2: opposite of two separate sounds'],['catenation','Formula 3: Picture a ribbon…'],['castaway','Formula 1'],['survival kit','Formula 3'],['ferocious','Formula 2'],['gathering','Formula 1']];
+let rrT=null,rrL=3,rrS=0;
+$('#rrNext').onclick=()=>{const [w,f]=rand(RW);$('#rrWord').textContent=w;$('#rrFormula').textContent='💡 '+f;say(w);
+  clearInterval(rrT);rrL=3;$('#rrTimer').textContent=3;rrT=setInterval(()=>{rrL--;$('#rrTimer').textContent=Math.max(rrL,0);if(rrL<=0)clearInterval(rrT)},1000)};
+$('#rrYes').onclick=()=>{clearInterval(rrT);rrS=Math.min(10,rrS+2);pts(5);$('#rrSig').textContent=rrS;if(rrS>=10){badge('radio');say('Rescue helicopter arriving')}};
+$('#rrNo').onclick=()=>{clearInterval(rrT);rrS=Math.max(0,rrS-1);$('#rrSig').textContent=rrS};
+
+/* GAME 7: COURT */
+const DIL=['Only one person can have the last fresh water. Who?','A castaway lied about hiding food. What now?','Should the group wait for rescue or build a raft?','Should the ukulele player be forgiven for burning the shelter?','Is it fair to share food equally if one person works harder?','The captain wants all the matches. Do you agree?','Should you light a signal fire at night, risking the whole forest?','Is it better to explore the island or stay near the beach?'];
+$('#courtNext').onclick=()=>{$('#courtCard').innerHTML=`<b>${rand(DIL)}</b><br><br>Stance: <span class="pill">${rand(['FOR','AGAINST','Neutral mediator'])}</span> Phrase: <span class="pill">${rand(PHRASES)}</span>`};
+let cd=0;$('#courtDone').onclick=()=>{pts(10);if(++cd>=3)badge('judge')};
+speechSynthesis&&speechSynthesis.getVoices();
+</script>
+</body>
+</html>

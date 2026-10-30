@@ -7,7 +7,7 @@ cd /d "%~dp0"
 
 git status
 git add .
-git commit -m "update: Hania English Afternoon Tea Salon & 3D Leaf Physics notes" 2>nul
+git commit -m "feat: Add Unpacking Sunday Mission page, downloads & Week 2 games" 2>nul
 git push -u origin main
 
 echo.

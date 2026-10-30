@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Organiser – Countries</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;background:#f3f0ff;margin:0;padding:20px;text-align:center}
+h1{color:#5b3fd0}
+.tabs button,.ctl button{font-size:1.1rem;padding:10px 18px;margin:4px;border:0;border-radius:10px;background:#5b3fd0;color:#fff;cursor:pointer}
+.tabs button.active{background:#ff8a00}
+.box{min-height:60px;margin:16px auto;max-width:700px;padding:10px;border:3px dashed #5b3fd0;border-radius:14px;background:#fff;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+.word{font-size:1.5rem;padding:10px 16px;background:#ffd84d;border-radius:10px;cursor:pointer;user-select:none;box-shadow:0 2px 0 #c9a100}
+.word:hover{transform:translateY(-2px)}
+#msg{font-size:1.4rem;min-height:2em;font-weight:bold}
+.ok{color:#1a9c3d}.bad{color:#d62828}
+</style>
+</head>
+<body>
+<h1>🧩 Word Organiser – Countries</h1>
+<div class="tabs">
+  <button id="t0" onclick="setLevel(0)">Level 1: I / You</button>
+  <button id="t1" onclick="setLevel(1)">Level 2: He / She</button>
+</div>
+<p>Click the words in the right order to make a sentence.</p>
+<div class="box" id="answer"></div>
+<div class="box" id="pool" style="border-style:solid"></div>
+<div id="msg"></div>
+<div class="ctl">
+  <button onclick="check()">✔ Check</button>
+  <button onclick="reset()">↺ Reset</button>
+  <button onclick="next()">Next ➜</button>
+</div>
+<p id="score"></p>
+<script>
+// Edit the countries here.
+const LEVELS = [
+  [
+    ["I","am","from","England"],
+    ["You","are","from","Ethiopia"]
+  ],
+  [
+    ["He","is","from","France"],
+    ["She","is","from","Japan"]
+  ]
+];
+let level=0,idx=0,score=0,placed=[],pool=[];
+const $=id=>document.getElementById(id);
+function shuffle(a){a=a.slice();do{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}}while(a.length>1&&a.every((w,i)=>w===LEVELS[level][idx][i]));return a}
+function load(){placed=[];pool=shuffle(LEVELS[level][idx]);$("msg").textContent="";render();
+  document.querySelectorAll(".tabs button").forEach((b,i)=>b.classList.toggle("active",i===level))}
+function render(){
+  $("answer").innerHTML="";$("pool").innerHTML="";
+  placed.forEach((w,i)=>$("answer").appendChild(mk(w,()=>{pool.push(placed.splice(i,1)[0]);render()})));
+  pool.forEach((w,i)=>$("pool").appendChild(mk(w,()=>{placed.push(pool.splice(i,1)[0]);render()})));
+  $("score").textContent="Sentence "+(idx+1)+" of "+LEVELS[level].length+" · Score: "+score}
+function mk(w,f){const d=document.createElement("div");d.className="word";d.textContent=w;d.onclick=f;return d}
+function check(){
+  const right=LEVELS[level][idx];
+  if(placed.length===right.length&&placed.every((w,i)=>w===right[i])){
+    $("msg").innerHTML='<span class="ok">🎉 Correct! '+right.join(" ")+'.</span>';score++;render()}
+  else $("msg").innerHTML='<span class="bad">Try again!</span>'}
+function reset(){load()}
+function next(){idx++;if(idx>=LEVELS[level].length){idx=0;$("msg").textContent="Level finished! Score: "+score;}load()}
+function setLevel(l){level=l;idx=0;score=0;load()}
+load();
+</script>
+</body>
+</html>
+
