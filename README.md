@@ -41,7 +41,7 @@ Experience the custom-crafted, single-page interactive study application featuri
 | :---: | :--- | :--- | :---: |
 | **Week 01** | **British English Rhythm, Connected Speech & Conversational Agility** | [🌸 Week 1 Study Notes](./Lessons/Week-01/Lesson-01-Notes.md) | [🫖 Open Portal](https://log210788.github.io/Hania/) |
 | **Week 02** | **Consonant Elision, Gemination & Castaway Survival** | [🏝️ Week 2 Notes](./Lessons/Week-02/Lesson-02-Notes.md) &bull; [📦 Sunday Unpacking](./unpacking.html) | [🏝️ Play Games](https://log210788.github.io/Hania/Lessons/Week-02/lesson-02.html) &bull; [📦 Unpacking App](https://log210788.github.io/Hania/unpacking.html) |
-| **Week 03** | Intonation Architecture, Pitch Movement & Polite Nuance | *Coming Soon* 🍰 | 🔒 |
+| **Week 03** | **Intonation Architecture, Pitch Movement & Polite Nuance** | [🎼 Week 3 Homework Brief](./Lessons/Week-03/Homework-03.md) | [🫖 Open Homework](https://log210788.github.io/Hania/Lessons/Week-03/homework-03.html) |
 | **Week 04** | High-Stakes Storytelling & Conversational Banter | *Coming Soon* 🌿 | 🔒 |
 
 ---
